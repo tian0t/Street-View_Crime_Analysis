@@ -211,7 +211,9 @@ function updateTimeChart() {
 
     // Add Year-over-Year Growth Rate overlay as secondary bar chart (unused field yoy)
     if (effectiveShowYoY && key === "TOTAL") {
-      const yoyData = data.time_series.yoy;
+      // Exclude partial years (e.g. a year with fewer than 12 months of data) —
+      // otherwise they'd render as a misleading 0% bar or a false swing.
+      const yoyData = data.time_series.yoy.filter(d => !d.partial && d.change_pct !== null);
       traces.push({
         name: "YoY Growth",
         type: "bar",
