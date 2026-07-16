@@ -22,22 +22,31 @@ const mapLegend = document.getElementById("mapLegend");
 
 // Plotly Configuration
 const plotCfg = { displayModeBar: 'hover', responsive: true };
-const plotLayout = {
-  paper_bgcolor: "rgba(0,0,0,0)",
-  plot_bgcolor: "rgba(0,0,0,0)",
-  font: { color: "rgba(255, 255, 255, 0.75)", family: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif", size: 12 },
-  margin: { l: 80, r: 40, t: 40, b: 60 },
-  xaxis: {
-    gridcolor: "rgba(255, 255, 255, 0.05)",
-    zerolinecolor: "rgba(255, 255, 255, 0.1)",
-    tickfont: { color: "rgba(255,255,255,0.6)" }
-  },
-  yaxis: {
-    gridcolor: "rgba(255, 255, 255, 0.05)",
-    zerolinecolor: "rgba(255, 255, 255, 0.1)",
-    tickfont: { color: "rgba(255,255,255,0.6)" }
-  },
-};
+
+// Returns a theme-aware Plotly base layout (call each time you render)
+function getPlotLayout() {
+  const isLight = document.documentElement.dataset.theme === 'light';
+  const textColor   = isLight ? 'rgba(0,0,0,0.65)'   : 'rgba(255,255,255,0.75)';
+  const gridColor   = isLight ? 'rgba(0,0,0,0.07)'   : 'rgba(255,255,255,0.05)';
+  const zeroColor   = isLight ? 'rgba(0,0,0,0.15)'   : 'rgba(255,255,255,0.1)';
+  const tickColor   = isLight ? 'rgba(0,0,0,0.50)'   : 'rgba(255,255,255,0.6)';
+  return {
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor:  'rgba(0,0,0,0)',
+    font: { color: textColor, family: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif", size: 12 },
+    margin: { l: 80, r: 40, t: 40, b: 60 },
+    xaxis: {
+      gridcolor: gridColor,
+      zerolinecolor: zeroColor,
+      tickfont: { color: tickColor },
+    },
+    yaxis: {
+      gridcolor: gridColor,
+      zerolinecolor: zeroColor,
+      tickfont: { color: tickColor },
+    },
+  };
+}
 
 // Utilities
 function formatPct(v, digits = 2) {
@@ -155,9 +164,9 @@ function updateCorrelationChart() {
     customdata: rows.map((r) => [r.p, r.n]).reverse(),
     hovertemplate: "<b>%{y}</b><br>Correlation: %{x:.3f}<br>p-value: %{customdata[0]:.2e}<br>Sample Size: %{customdata[1]}<extra></extra>",
   }], {
-    ...plotLayout,
-    xaxis: { ...plotLayout.xaxis, title: "Correlation Coefficient", zeroline: true, zerolinecolor: "rgba(255,255,255,0.3)", zerolinewidth: 1.5 },
-    yaxis: { ...plotLayout.yaxis, title: "" },
+    ...getPlotLayout(),
+    xaxis: { ...(getPlotLayout()).xaxis, title: "Correlation Coefficient", zeroline: true, zerolinecolor: "rgba(255,255,255,0.3)", zerolinewidth: 1.5 },
+    yaxis: { ...(getPlotLayout()).yaxis, title: "" },
   }, plotCfg);
   
   const strongest = rows[0];
@@ -244,9 +253,9 @@ function updateTimeChart() {
 
   // Define layout with potential secondary y-axis
   const layout = {
-    ...plotLayout,
-    xaxis: { ...plotLayout.xaxis, title: isGranular ? "Month" : "Year" },
-    yaxis: { ...plotLayout.yaxis, title: "Crime Incidents Count" },
+    ...getPlotLayout(),
+    xaxis: { ...(getPlotLayout()).xaxis, title: isGranular ? "Month" : "Year" },
+    yaxis: { ...(getPlotLayout()).yaxis, title: "Crime Incidents Count" },
     legend: { orientation: "h", y: -0.2, font: { color: "rgba(255,255,255,0.5)" } }
   };
 
@@ -279,9 +288,9 @@ function renderSeasonality() {
     colorbar: { title: "Crimes", tickfont: { color: "rgba(255,255,255,0.5)" } },
     hovertemplate: "Year %{y}, %{x}<br>Crime Volume: %{z:,.0f}<extra></extra>",
   }], {
-    ...plotLayout,
-    xaxis: { ...plotLayout.xaxis, title: "" },
-    yaxis: { ...plotLayout.yaxis, title: "Year" },
+    ...getPlotLayout(),
+    xaxis: { ...(getPlotLayout()).xaxis, title: "" },
+    yaxis: { ...(getPlotLayout()).yaxis, title: "Year" },
   }, plotCfg);
 }
 
@@ -300,9 +309,9 @@ function renderCorrelationHeatmap() {
     colorbar: { tickfont: { color: "rgba(255,255,255,0.5)" } },
     hovertemplate: "Feature %{y}<br>Crime %{x}<br>r = %{z:.3f}<extra></extra>",
   }], {
-    ...plotLayout,
-    xaxis: { ...plotLayout.xaxis, tickangle: -25 },
-    yaxis: { ...plotLayout.yaxis },
+    ...getPlotLayout(),
+    xaxis: { ...(getPlotLayout()).xaxis, tickangle: -25 },
+    yaxis: { ...(getPlotLayout()).yaxis },
     margin: { l: 100, r: 20, t: 40, b: 80 }
   }, plotCfg);
 }
@@ -321,9 +330,9 @@ function renderFeatureCorrMatrix() {
     colorbar: { tickfont: { color: "rgba(255,255,255,0.5)" } },
     hovertemplate: "%{y} × %{x}<br>Pearson r = %{z:.3f}<extra></extra>",
   }], {
-    ...plotLayout,
-    xaxis: { ...plotLayout.xaxis, tickangle: -30 },
-    yaxis: { ...plotLayout.yaxis },
+    ...getPlotLayout(),
+    xaxis: { ...(getPlotLayout()).xaxis, tickangle: -30 },
+    yaxis: { ...(getPlotLayout()).yaxis },
     margin: { l: 100, r: 20, t: 40, b: 80 }
   }, plotCfg);
 }
@@ -358,9 +367,9 @@ function renderDistribution() {
     marker: { color: "#007aff", opacity: 0.8, line: {width: 1, color: "rgba(255,255,255,0.2)"} },
     hovertemplate: "%{x}<br>LSOAs: %{y}<extra></extra>",
   }], {
-    ...plotLayout,
-    xaxis: { ...plotLayout.xaxis, title: "Functional Zone", tickangle: -25 },
-    yaxis: { ...plotLayout.yaxis, title: "LSOA Count" },
+    ...getPlotLayout(),
+    xaxis: { ...(getPlotLayout()).xaxis, title: "Functional Zone", tickangle: -25 },
+    yaxis: { ...(getPlotLayout()).yaxis, title: "LSOA Count" },
     margin: { l: 60, r: 20, t: 40, b: 80 }
   }, plotCfg);
 }
@@ -387,9 +396,9 @@ function updateZoneCrimeChart() {
     },
     hovertemplate: "Zone: %{x}<br>Mean Crime Rate: %{y:.3f} per 1000<extra></extra>",
   }], {
-    ...plotLayout,
-    xaxis: { ...plotLayout.xaxis, tickangle: -20 },
-    yaxis: { ...plotLayout.yaxis, title: `${prettyCrime(c)} per 1000 residents` },
+    ...getPlotLayout(),
+    xaxis: { ...(getPlotLayout()).xaxis, tickangle: -20 },
+    yaxis: { ...(getPlotLayout()).yaxis, title: `${prettyCrime(c)} per 1000 residents` },
     margin: { l: 60, r: 20, t: 40, b: 80 }
   }, plotCfg);
 }
@@ -419,9 +428,9 @@ function updateEvidenceChart() {
     textfont: {color: "rgba(255,255,255,0.85)", size: 10},
     hovertemplate: "Feature: <b>%{text}</b><br>Correlation: %{x:.3f}<br>-log10(p): %{y:.2f}<br>LSOAs: %{marker.size}<extra></extra>",
   }], {
-    ...plotLayout,
-    xaxis: { ...plotLayout.xaxis, title: "Pearson Correlation Coefficient", zeroline: true },
-    yaxis: { ...plotLayout.yaxis, title: "Statistical Significance: -log10(p-value)" },
+    ...getPlotLayout(),
+    xaxis: { ...(getPlotLayout()).xaxis, title: "Pearson Correlation Coefficient", zeroline: true },
+    yaxis: { ...(getPlotLayout()).yaxis, title: "Statistical Significance: -log10(p-value)" },
     shapes: [
       // Dotted lines representing significance thresholds (p < 0.05 is ~1.30, p < 0.01 is 2.00)
       { type: "line", x0: -0.4, x1: 0.4, y0: 1.301, y1: 1.301, line: { color: "rgba(255,255,255,0.25)", width: 1, dash: "dash" } },
@@ -446,9 +455,9 @@ function renderZoneTests() {
     marker: { color: "rgba(191, 90, 242, 0.8)", line:{width:1, color:"rgba(255,255,255,0.2)"} },
     hovertemplate: "%{y}<br>-log10(p): %{x:.2f}<br>Kruskal H: %{customdata:.2f}<extra></extra>",
   }], {
-    ...plotLayout,
-    xaxis: { ...plotLayout.xaxis, title: "Significance: -log10(p-value)" },
-    yaxis: { ...plotLayout.yaxis },
+    ...getPlotLayout(),
+    xaxis: { ...(getPlotLayout()).xaxis, title: "Significance: -log10(p-value)" },
+    yaxis: { ...(getPlotLayout()).yaxis },
     margin: { l: 150, r: 20, t: 40, b: 60 },
     shapes: [
       { type: "line", x0: 1.301, x1: 1.301, y0: -0.5, y1: y.length - 0.5, line: { dash: "dot", color: "#ff9500" } },
@@ -545,10 +554,10 @@ function setupSimulator() {
         hovertemplate: "%{y}<br>Standardized Impact: %{x:.3f}<extra></extra>",
       },
     ], {
-      ...plotLayout,
+      ...getPlotLayout(),
       margin: { l: 80, r: 20, t: 32, b: 36 },
-      xaxis2: { domain: [0.46, 1], title: "Standardized Coeff Impact", ...plotLayout.xaxis },
-      yaxis2: { domain: [0, 1], title: "", ...plotLayout.yaxis },
+      xaxis2: { domain: [0.46, 1], title: "Standardized Coeff Impact", ...(getPlotLayout()).xaxis },
+      yaxis2: { domain: [0, 1], title: "", ...(getPlotLayout()).yaxis },
     }, plotCfg);
   }
 
@@ -839,6 +848,45 @@ function boot() {
   initMap();
   initScrollReveals();
   initDropdowns();
+  initTheme();
+}
+
+// Theme toggle — persists to localStorage, re-renders all Plotly charts
+function initTheme() {
+  const html   = document.documentElement;
+  const btn    = document.getElementById('themeToggle');
+  const STORE  = 'sv-crime-theme';
+
+  // Restore saved preference
+  const saved = localStorage.getItem(STORE);
+  if (saved) html.dataset.theme = saved;
+
+  function rerenderAllCharts() {
+    // Re-run all chart render functions so they pick up new getPlotLayout() colors
+    updateCorrelationChart();
+    updateTimeChart();
+    updateZoneCrimeChart();
+    updateEvidenceChart();
+    renderCorrelationHeatmap();
+    renderSeasonality();
+    renderFeatureCorrMatrix();
+    renderZoneTests();
+    // Simulator chart — re-trigger if a target is selected
+    const simTarget = document.getElementById('simTargetSelect');
+    if (simTarget?.value) {
+      simTarget.dispatchEvent(new Event('change'));
+    }
+  }
+
+  if (btn) {
+    btn.addEventListener('click', () => {
+      const next = html.dataset.theme === 'light' ? 'dark' : 'light';
+      html.dataset.theme = next;
+      localStorage.setItem(STORE, next);
+      // Small delay so CSS vars update before Plotly reads them
+      requestAnimationFrame(() => setTimeout(rerenderAllCharts, 40));
+    });
+  }
 }
 
 window.addEventListener('DOMContentLoaded', boot);

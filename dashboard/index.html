@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -30,6 +30,30 @@
           Urban Spatial Analytics
         </div>
         <nav id="anchorNav" class="topnav" role="menu" aria-label="Anchor Navigation"></nav>
+        <!-- Theme Toggle -->
+        <button
+          id="themeToggle"
+          class="theme-toggle"
+          aria-label="Toggle light/dark mode"
+          title="Toggle light/dark mode"
+        >
+          <!-- Moon icon (dark mode) -->
+          <svg class="icon-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <!-- Sun icon (light mode) -->
+          <svg class="icon-light" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
       </div>
     </header>
 
@@ -40,7 +64,7 @@
           <p class="eyebrow">Academic Research Showcase</p>
           <h1 id="hero-title">Street View Data for<br />Urban Crime Pattern Analysis</h1>
           <p class="lead" style="text-wrap: balance;">
-            An interactive dashboard built to explore the spatial, temporal, and environmental correlates of crime across London using computer-vision derived street features.
+            Crime statistics tell us <em>where</em> crime happens. Street-level imagery reveals <em>why</em>. This research quantifies how the physical character of urban space — visibility, land use, vegetation, and built form — shapes crime risk across <strong class="text-highlight">3,525</strong> London neighbourhoods.
           </p>
           <div id="metaCards" class="metrics-grid"></div>
         </div>
