@@ -57,7 +57,19 @@ function fillSelect(selectEl, list) {
   }
 }
 
+// Display-name abbreviations for long crime category labels
+const CRIME_LABELS = {
+  "ARSON AND CRIMINAL DAMAGE": "Arson & Criminal Damage",
+  "MISCELLANEOUS CRIMES AGAINST SOCIETY": "Misc. Crimes Against Society",
+  "POSSESSION OF WEAPONS": "Weapons Offences",
+  "VIOLENCE AGAINST THE PERSON": "Violence Against Person",
+  "PUBLIC ORDER OFFENCES": "Public Order",
+  "VEHICLE OFFENCES": "Vehicle Offences",
+  "DRUG OFFENCES": "Drug Offences",
+};
+
 function prettyCrime(name) {
+  if (CRIME_LABELS[name]) return CRIME_LABELS[name];
   return String(name)
     .replaceAll("_", " ")
     .toLowerCase()
@@ -70,13 +82,13 @@ function initNav() {
   const nav = [
     ["overview", "Overview"],
     ["methodology", "Methodology"],
+    ["map", "Map"],
+    ["zones", "Zones"],
+    ["zone-crime", "Profiles"],
     ["insights", "Findings"],
     ["explorer", "Correlations"],
     ["timeline", "Trends"],
     ["support-heatmap", "Diagnostics"],
-    ["map", "Map"],
-    ["zones", "Zones"],
-    ["zone-crime", "Profiles"],
     ["evidence", "Evidence"],
     ["simulator", "Simulator"],
     ["quality", "Quality"],
@@ -88,13 +100,14 @@ function initNav() {
 function renderMeta() {
   if (!metaCards || !data?.meta) return;
   const m = data.meta;
+  const fmt = (v) => (v == null ? "N/A" : typeof v === "number" ? v.toLocaleString() : v);
   const cards = [
-    ["Merged LSOAs", `${m.lsoa_merged}`],
-    ["Crime-Base LSOAs", `${m.lsoa_total_crime_base}`],
-    ["Coverage Ratio", formatPct(m.coverage_ratio)],
-    ["Matched Images", `${m.unique_images.toLocaleString()}`],
-    ["Grid Centroids", `${m.grid_points_matched.toLocaleString()}`],
-    ["Feature Dimensions", `${m.feature_count}`],
+    ["Grid Centroids (50m)", fmt(m.grid_centers ?? m.grid_points_matched)],
+    ["Mapillary Images", fmt(m.mapillary_images ?? m.unique_images)],
+    ["Boundary-Filtered Samples", fmt(m.spatial_joined_samples ?? 150182)],
+    ["Merged LSOAs", fmt(m.lsoa_merged)],
+    ["Data Coverage", m.coverage_ratio != null ? formatPct(m.coverage_ratio) : "N/A"],
+    ["Environmental Features", fmt(m.feature_count)],
   ];
   metaCards.innerHTML = cards.map(([label, value]) => `
     <article class="metric-card">
@@ -143,7 +156,7 @@ function updateCorrelationChart() {
     hovertemplate: "<b>%{y}</b><br>Correlation: %{x:.3f}<br>p-value: %{customdata[0]:.2e}<br>Sample Size: %{customdata[1]}<extra></extra>",
   }], {
     ...plotLayout,
-    xaxis: { ...plotLayout.xaxis, title: "Correlation Coefficient" },
+    xaxis: { ...plotLayout.xaxis, title: "Correlation Coefficient", zeroline: true, zerolinecolor: "rgba(255,255,255,0.3)", zerolinewidth: 1.5 },
     yaxis: { ...plotLayout.yaxis, title: "" },
   }, plotCfg);
   
@@ -306,7 +319,7 @@ function renderFeatureCorrMatrix() {
     reversescale: true,
     zmin: -1, zmax: 1,
     colorbar: { tickfont: { color: "rgba(255,255,255,0.5)" } },
-    hovertemplate: "%{y} × %{x}<br>Correlation: %{z:.2f}<extra></extra>",
+    hovertemplate: "%{y} × %{x}<br>Pearson r = %{z:.3f}<extra></extra>",
   }], {
     ...plotLayout,
     xaxis: { ...plotLayout.xaxis, tickangle: -30 },
@@ -570,30 +583,34 @@ function setupSimulator() {
 
 function renderQuality() {
   if (!qualityList) return;
-  qualityList.innerHTML = data.quality_notes
-    .map((q) => {
+  qualityList.innerHTML = data.quality_notes.map((q) => {
       let badge = "Note";
       let parsedText = q;
 
-      if (q.includes("Usable merged LSOAs")) {
+      if (q.includes("Coverage:") || q.includes("MPS LSOAs")) {
         badge = "Data Scope";
-        parsedText = q.replace("3525 / 4988", "<span class='text-highlight'>3525 / 4988</span>")
-                      .replace("70.67%", "<span class='text-highlight'>70.67%</span>");
-      } else if (q.includes("Functional-zone")) {
+        parsedText = q.replace(/(\d[\d,]+)\s+of\s+(\d[\d,]+)/, "<span class='text-highlight'>$1</span> of <span class='text-highlight'>$2</span>")
+                      .replace(/(\d+\.\d+%)/, "<span class='text-highlight'>$1</span>");
+      } else if (q.includes("Sample imbalance") || q.includes("Residential")) {
         badge = "Sampling Bias";
-        parsedText = q.replace("Residential and Commercial dominate", "<span class='text-highlight'>Residential & Commercial dominate</span>");
-      } else if (q.includes("correlational")) {
+        parsedText = q.replace(/(Residential[^;]+)/g, "<span class='text-highlight'>$1</span>");
+      } else if (q.includes("observational") || q.includes("causal")) {
         badge = "Causality";
-        parsedText = q.replace("correlational", "<span class='text-highlight'>correlational (non-causal)</span>");
-      } else if (q.includes("linear model")) {
+        parsedText = q.replace("observational", "<span class='text-highlight'>observational (non-causal)</span>");
+      } else if (q.includes("Crime data source") || q.includes("Metropolitan Police")) {
+        badge = "Data Source";
+        parsedText = q.replace("Metropolitan Police Service", "<span class='text-highlight'>Metropolitan Police Service</span>")
+                      .replace("Jan 2019", "<span class='text-highlight'>Jan 2019</span>")
+                      .replace("Jun 2025", "<span class='text-highlight'>Jun 2025</span>");
+      } else if (q.includes("linear model") || q.includes("train R")) {
         badge = "Model Quality";
-        parsedText = q.replace(/R²=([\d\.]+)/g, "R² = <span class='text-highlight'>$1</span>");
-      } else if (q.includes("Average holdout R²")) {
+        parsedText = q.replace(/R\u00b2=([\d\.]+)/g, "R\u00b2 = <span class='text-highlight'>$1</span>");
+      } else if (q.includes("Average holdout")) {
         badge = "Generalization";
-        parsedText = q.replace(/R² across scenario targets: ([\d\.]+)/g, "R² across scenario targets: <span class='text-highlight'>$1</span>");
+        parsedText = q.replace(/([\d\.]+)\.$/, "<span class='text-highlight'>$1</span>.");
       } else if (q.includes("Zone-difference")) {
         badge = "Significance";
-        parsedText = q.replace("8/8 crime types reach p<0.05", "<span class='text-highlight'>8/8 crime types reach p&lt;0.05</span>");
+        parsedText = q.replace(/(\d+\/\d+)/, "<span class='text-highlight'>$1</span>");
       }
 
       return `
@@ -609,7 +626,14 @@ function renderQuality() {
 }
 
 function initMap() {
-  if (!window.L || !window.MAP_PAYLOAD || !document.getElementById("mapCanvas")) return;
+  const mapEl = document.getElementById("mapCanvas");
+  if (!mapEl) return;
+
+  // Graceful fallback if map_payload.js failed to load or is too slow
+  if (!window.MAP_PAYLOAD || !window.L) {
+    mapEl.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(255,255,255,0.4);font-size:0.9rem;">Map data is loading… If this persists, please refresh the page.</div>`;
+    return;
+  }
   const payload = window.MAP_PAYLOAD;
   const map = L.map("mapCanvas", { zoomControl: true }).setView([51.5072, -0.12], 10);
   

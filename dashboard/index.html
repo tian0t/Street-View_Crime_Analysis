@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Street View Spatial Analytics | Dashboard</title>
+    <title>Street View Crime Analysis – London | MSc Urban Data Science</title>
+    <meta name="description" content="Interactive analysis of crime patterns in London using environmental features derived from 150,654 street-view images across 3,525 LSOAs. MSc Urban Data Science dissertation dashboard.">
+    <meta property="og:title" content="Street View Crime Analysis — London Dashboard">
+    <meta property="og:description" content="Exploring how the physical built environment relates to crime across Greater London, using computer vision on street-view imagery and MPS crime statistics.">
+    <meta property="og:type" content="website">
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -35,7 +39,7 @@
         <div class="chapter__content">
           <p class="eyebrow">Academic Research Showcase</p>
           <h1 id="hero-title">Street View Data for<br />Urban Crime Pattern Analysis</h1>
-          <p class="lead">
+          <p class="lead" style="text-wrap: balance;">
             An interactive dashboard built to explore the spatial, temporal, and environmental correlates of crime across London using computer-vision derived street features.
           </p>
           <div id="metaCards" class="metrics-grid"></div>
@@ -69,10 +73,123 @@
             <h4>Statistical Inference</h4>
             <p>Aggregated features to LSOA level (<strong class="text-highlight">70.7%</strong> data coverage) and executed Pearson/Spearman correlation and Kruskal-Wallis H tests.</p>
           </article>
+          <article class="pipeline-card">
+            <p class="step-number">Step 05</p>
+            <h4>Crime Data Integration</h4>
+            <p>Merged street features with Metropolitan Police Service open records (<strong class="text-highlight">Jan 2019 – Jun 2025</strong>), covering <strong class="text-highlight">10</strong> major crime categories across Greater London LSOAs.</p>
+          </article>
         </div>
       </section>
 
-      <!-- 3. Core Findings -->
+      <!-- 3. Spatial Evidence Map -->
+      <section id="map" class="chapter" aria-labelledby="map-title">
+        <div class="chapter__head">
+          <h2 id="map-title">Spatial Evidence Map</h2>
+          <p>LSOA choropleth mapping overlaid with functional zones and sampling points.</p>
+        </div>
+        <div class="glass-panel">
+          <div class="panel-header">
+            <div class="controls">
+              <div class="control-group">
+                <label for="mapModeSelect">Map Layer</label>
+                <select id="mapModeSelect" aria-label="Select Map Mode">
+                  <option value="crime">Total Crime Rate</option>
+                  <option value="function">Dominant Function</option>
+                  <option value="coverage">Data Coverage</option>
+                </select>
+              </div>
+              <div class="control-group checkbox-group">
+                <label class="inline-check">
+                  <input type="checkbox" id="coverageToggle" checked aria-label="Toggle showing sampled points" />
+                  Show sampled points
+                </label>
+              </div>
+            </div>
+            <button class="info-btn" data-target="info-mapLayer" aria-label="Show map analysis">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+            </button>
+          </div>
+          <div class="t-dropdown" id="info-mapLayer" data-origin="top-right">
+            <h4>Spatial Visualization</h4>
+            <p>This choropleth map plots LSOA-level aggregates, allowing you to visually verify spatial clustering. Toggle between crime rates and dominant functional zones to observe macro-level geographical relationships.</p>
+          </div>
+          <div id="mapCanvas"></div>
+          <div id="mapLegend" class="map-legend" role="legend"></div>
+        </div>
+      </section>
+
+      <!-- 4. Functional Zones Comparison -->
+      <section id="zones" class="chapter" aria-labelledby="zones-title">
+        <div class="chapter__head">
+          <h2 id="zones-title">Functional Zone Tests</h2>
+          <p>Analyzing crime distributions and statistical significance across urban zones.</p>
+        </div>
+        <div id="zoneCards" class="cards-grid" style="margin-bottom: 1.5rem;"></div>
+        <div class="grid-2">
+          <div class="glass-panel">
+            <div class="panel-header">
+              <div class="controls">
+                <div class="control-group">
+                  <label>Zone Distribution</label>
+                </div>
+              </div>
+              <button class="info-btn" data-target="info-zoneDist" aria-label="Show zone distribution analysis">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+              </button>
+            </div>
+            <div class="t-dropdown" id="info-zoneDist" data-origin="top-right">
+              <h4>Sample Distribution</h4>
+              <p>A simple bar chart displaying the frequency of each functional zone within the dataset. Uneven distributions highlight the necessity of non-parametric tests like Kruskal-Wallis.</p>
+            </div>
+            <div id="distChart" class="plotly-box"></div>
+          </div>
+          <div class="glass-panel">
+            <div class="panel-header">
+              <div class="controls">
+                <div class="control-group">
+                  <label>Kruskal-Wallis Significance</label>
+                </div>
+              </div>
+              <button class="info-btn" data-target="info-kwTest" aria-label="Show Kruskal-Wallis variance analysis">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+              </button>
+            </div>
+            <div class="t-dropdown" id="info-kwTest" data-origin="top-right">
+              <h4>Kruskal-Wallis Variance Analysis</h4>
+              <p>Plotted as -log10(p-value), this chart indicates whether crime distributions significantly differ across urban zones. Bars crossing the dotted thresholds indicate statistically significant variance (p < 0.05 or p < 0.01).</p>
+            </div>
+            <div id="zoneTestChart" class="plotly-box"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Crime Profiles by Zone -->
+      <section id="zone-crime" class="chapter" aria-labelledby="zone-crime-title">
+        <div class="chapter__head">
+          <h2 id="zone-crime-title">Crime Profile by Functional Zone</h2>
+          <p>Visualizing the variance (means and quantiles) across different environments.</p>
+        </div>
+        <div class="glass-panel">
+          <div class="panel-header">
+            <div class="controls">
+              <div class="control-group">
+                <label for="zoneCrimeSelect">Crime Type</label>
+                <select id="zoneCrimeSelect" aria-label="Select Zone Crime Type"></select>
+              </div>
+            </div>
+            <button class="info-btn" data-target="info-zoneProfile" aria-label="Show zone profile analysis">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+            </button>
+          </div>
+          <div class="t-dropdown" id="info-zoneProfile" data-origin="top-right">
+            <h4>Zone-Specific Crime Profiles</h4>
+            <p>This chart breaks down the selected crime type by functional zone. The bars represent the mean crime rate, while the error bars show the interquartile range (25th to 75th percentile), giving a robust view of volatility within each zone type.</p>
+          </div>
+          <div id="zoneCrimeChart" class="plotly-box"></div>
+        </div>
+      </section>
+
+      <!-- 6. Core Findings -->
       <section id="insights" class="chapter" aria-labelledby="insights-title">
         <div class="chapter__head">
           <h2 id="insights-title">Core Findings</h2>
@@ -81,7 +198,7 @@
         <div id="findingCards" class="cards-grid"></div>
       </section>
 
-      <!-- 4. Environmental Drivers -->
+      <!-- 7. Environmental Drivers -->
       <section id="explorer" class="chapter" aria-labelledby="explorer-title">
         <div class="chapter__head">
           <h2 id="explorer-title">Environmental Drivers vs Crime</h2>
@@ -112,7 +229,7 @@
         </div>
       </section>
 
-      <!-- 5. Long-Horizon Trends -->
+      <!-- 8. Long-Horizon Trends -->
       <section id="timeline" class="chapter" aria-labelledby="timeline-title">
         <div class="chapter__head">
           <h2 id="timeline-title">Long-Horizon Trends and Shocks</h2>
@@ -169,7 +286,7 @@
         </div>
       </section>
 
-      <!-- 6. Structure Diagnostics -->
+      <!-- 9. Structure Diagnostics -->
       <section id="support-heatmap" class="chapter" aria-labelledby="diagnostics-title">
         <div class="chapter__head">
           <h2 id="diagnostics-title">Structure Diagnostics</h2>
@@ -210,114 +327,6 @@
             </div>
             <div id="featureCorrChart" class="plotly-box"></div>
           </div>
-        </div>
-      </section>
-
-      <!-- 7. Spatial Evidence Map -->
-      <section id="map" class="chapter" aria-labelledby="map-title">
-        <div class="chapter__head">
-          <h2 id="map-title">Spatial Evidence Map</h2>
-          <p>LSOA choropleth mapping overlaid with functional zones and sampling points.</p>
-        </div>
-        <div class="glass-panel">
-          <div class="panel-header">
-            <div class="controls">
-              <div class="control-group">
-                <label for="mapModeSelect">Map Layer</label>
-                <select id="mapModeSelect" aria-label="Select Map Mode">
-                  <option value="crime">Total Crime Rate</option>
-                  <option value="function">Dominant Function</option>
-                  <option value="coverage">Data Coverage</option>
-                </select>
-              </div>
-              <div class="control-group checkbox-group">
-                <label class="inline-check">
-                  <input type="checkbox" id="coverageToggle" checked aria-label="Toggle showing sampled points" />
-                  Show sampled points
-                </label>
-              </div>
-            </div>
-            <button class="info-btn" data-target="info-mapLayer" aria-label="Show map analysis">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-            </button>
-          </div>
-          <div class="t-dropdown" id="info-mapLayer" data-origin="top-right">
-            <h4>Spatial Visualization</h4>
-            <p>This choropleth map plots LSOA-level aggregates, allowing you to visually verify spatial clustering. Toggle between crime rates and dominant functional zones to observe macro-level geographical relationships.</p>
-          </div>
-          <div id="mapCanvas"></div>
-          <div id="mapLegend" class="map-legend" role="legend"></div>
-        </div>
-      </section>
-
-      <!-- 8. Functional Zones Comparison -->
-      <section id="zones" class="chapter" aria-labelledby="zones-title">
-        <div class="chapter__head">
-          <h2 id="zones-title">Functional Zone Tests</h2>
-          <p>Analyzing crime distributions and statistical significance across urban zones.</p>
-        </div>
-        <div id="zoneCards" class="cards-grid" style="margin-bottom: 1.5rem;"></div>
-        <div class="grid-2">
-          <div class="glass-panel">
-            <div class="panel-header">
-              <div class="controls">
-                <div class="control-group">
-                  <label>Zone Distribution</label>
-                </div>
-              </div>
-              <button class="info-btn" data-target="info-zoneDist" aria-label="Show zone distribution analysis">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-              </button>
-            </div>
-            <div class="t-dropdown" id="info-zoneDist" data-origin="top-right">
-              <h4>Sample Distribution</h4>
-              <p>A simple bar chart displaying the frequency of each functional zone within the dataset. Uneven distributions highlight the necessity of non-parametric tests like Kruskal-Wallis.</p>
-            </div>
-            <div id="distChart" class="plotly-box"></div>
-          </div>
-          <div class="glass-panel">
-            <div class="panel-header">
-              <div class="controls">
-                <div class="control-group">
-                  <label>Kruskal-Wallis Significance</label>
-                </div>
-              </div>
-              <button class="info-btn" data-target="info-kwTest" aria-label="Show Kruskal-Wallis variance analysis">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-              </button>
-            </div>
-            <div class="t-dropdown" id="info-kwTest" data-origin="top-right">
-              <h4>Kruskal-Wallis Variance Analysis</h4>
-              <p>Plotted as -log10(p-value), this chart indicates whether crime distributions significantly differ across urban zones. Bars crossing the dotted thresholds indicate statistically significant variance (p < 0.05 or p < 0.01).</p>
-            </div>
-            <div id="zoneTestChart" class="plotly-box"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 9. Crime Profiles by Zone -->
-      <section id="zone-crime" class="chapter" aria-labelledby="zone-crime-title">
-        <div class="chapter__head">
-          <h2 id="zone-crime-title">Crime Profile by Functional Zone</h2>
-          <p>Visualizing the variance (means and quantiles) across different environments.</p>
-        </div>
-        <div class="glass-panel">
-          <div class="panel-header">
-            <div class="controls">
-              <div class="control-group">
-                <label for="zoneCrimeSelect">Crime Type</label>
-                <select id="zoneCrimeSelect" aria-label="Select Zone Crime Type"></select>
-              </div>
-            </div>
-            <button class="info-btn" data-target="info-zoneProfile" aria-label="Show zone profile analysis">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-            </button>
-          </div>
-          <div class="t-dropdown" id="info-zoneProfile" data-origin="top-right">
-            <h4>Zone-Specific Crime Profiles</h4>
-            <p>This chart breaks down the selected crime type by functional zone. The bars represent the mean crime rate, while the error bars show the interquartile range (25th to 75th percentile), giving a robust view of volatility within each zone type.</p>
-          </div>
-          <div id="zoneCrimeChart" class="plotly-box"></div>
         </div>
       </section>
 

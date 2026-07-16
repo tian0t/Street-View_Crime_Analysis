@@ -3,6 +3,9 @@ window.ANALYSIS_SUMMARY = {
     "lsoa_merged": 3525,
     "lsoa_total_crime_base": 4988,
     "coverage_ratio": 0.7066960705693665,
+    "grid_centers": 629375,
+    "mapillary_images": 150654,
+    "spatial_joined_samples": 150182,
     "grid_points_matched": 150654,
     "unique_images": 150654,
     "feature_count": 19
@@ -985,6 +988,354 @@ window.ANALYSIS_SUMMARY = {
           "n": 3525
         }
       ],
+      "ARSON AND CRIMINAL DAMAGE": [
+        {
+          "feature": "sky",
+          "value": -0.07951746707923499,
+          "p": 2.279738062012464e-06,
+          "n": 3525
+        },
+        {
+          "feature": "vegetation",
+          "value": 0.07503665506400474,
+          "p": 8.205046531239782e-06,
+          "n": 3525
+        },
+        {
+          "feature": "person",
+          "value": 0.04678723300849132,
+          "p": 0.00546316386731833,
+          "n": 3525
+        },
+        {
+          "feature": "car",
+          "value": -0.03086655366477952,
+          "p": 0.06689382775217478,
+          "n": 3525
+        },
+        {
+          "feature": "bicycle",
+          "value": 0.030563412580700684,
+          "p": 0.06961888269687588,
+          "n": 3525
+        },
+        {
+          "feature": "terrain",
+          "value": 0.0290027571707706,
+          "p": 0.08512483153295924,
+          "n": 3525
+        },
+        {
+          "feature": "sidewalk",
+          "value": -0.019212779775247664,
+          "p": 0.2541212410841822,
+          "n": 3525
+        },
+        {
+          "feature": "bus",
+          "value": -0.014954864146023482,
+          "p": 0.3747394937897389,
+          "n": 3525
+        },
+        {
+          "feature": "building",
+          "value": -0.013058554590845982,
+          "p": 0.43830019451330454,
+          "n": 3525
+        },
+        {
+          "feature": "pole",
+          "value": 0.012349874312076733,
+          "p": 0.463557783796044,
+          "n": 3525
+        },
+        {
+          "feature": "train",
+          "value": -0.011068826164922498,
+          "p": 0.5112052305015425,
+          "n": 3525
+        },
+        {
+          "feature": "motorcycle",
+          "value": -0.011053219979624192,
+          "p": 0.5118010485695886,
+          "n": 3525
+        },
+        {
+          "feature": "rider",
+          "value": -0.009985901362440947,
+          "p": 0.5533922865293075,
+          "n": 3525
+        },
+        {
+          "feature": "wall",
+          "value": -0.009615890611409963,
+          "p": 0.5681877084004332,
+          "n": 3525
+        },
+        {
+          "feature": "fence",
+          "value": 0.007544961780501234,
+          "p": 0.6542940909982841,
+          "n": 3525
+        },
+        {
+          "feature": "truck",
+          "value": -0.006977701288995435,
+          "p": 0.678774384487488,
+          "n": 3525
+        },
+        {
+          "feature": "road",
+          "value": 0.006228477980068423,
+          "p": 0.7116300103806437,
+          "n": 3525
+        },
+        {
+          "feature": "traffic_sign",
+          "value": 0.004076628109883505,
+          "p": 0.8088177081484063,
+          "n": 3525
+        },
+        {
+          "feature": "traffic_light",
+          "value": -0.0017354943657009142,
+          "p": 0.9179607472734495,
+          "n": 3525
+        }
+      ],
+      "MISCELLANEOUS CRIMES AGAINST SOCIETY": [
+        {
+          "feature": "sky",
+          "value": -0.0946187448426964,
+          "p": 1.8197872030196977e-08,
+          "n": 3525
+        },
+        {
+          "feature": "vegetation",
+          "value": 0.09172712641772442,
+          "p": 4.8816260279526175e-08,
+          "n": 3525
+        },
+        {
+          "feature": "bus",
+          "value": -0.03712477734996267,
+          "p": 0.02751452987786524,
+          "n": 3525
+        },
+        {
+          "feature": "train",
+          "value": -0.033265769001693535,
+          "p": 0.04828044311198065,
+          "n": 3525
+        },
+        {
+          "feature": "person",
+          "value": 0.027332143641734957,
+          "p": 0.10469982700442444,
+          "n": 3525
+        },
+        {
+          "feature": "traffic_sign",
+          "value": -0.022669029264836306,
+          "p": 0.17843329589240464,
+          "n": 3525
+        },
+        {
+          "feature": "motorcycle",
+          "value": -0.021015584895554062,
+          "p": 0.21224117501794856,
+          "n": 3525
+        },
+        {
+          "feature": "truck",
+          "value": -0.020618119058415946,
+          "p": 0.22101677303741668,
+          "n": 3525
+        },
+        {
+          "feature": "terrain",
+          "value": 0.018850808849887647,
+          "p": 0.26317971692336684,
+          "n": 3525
+        },
+        {
+          "feature": "car",
+          "value": -0.018528720890678644,
+          "p": 0.27142533333232294,
+          "n": 3525
+        },
+        {
+          "feature": "building",
+          "value": -0.014844571447363859,
+          "p": 0.3782725972242971,
+          "n": 3525
+        },
+        {
+          "feature": "sidewalk",
+          "value": -0.012383905646048342,
+          "p": 0.4623266608717025,
+          "n": 3525
+        },
+        {
+          "feature": "wall",
+          "value": -0.011830985807986354,
+          "p": 0.48255362909981575,
+          "n": 3525
+        },
+        {
+          "feature": "road",
+          "value": 0.01181321063571908,
+          "p": 0.48321176155438517,
+          "n": 3525
+        },
+        {
+          "feature": "traffic_light",
+          "value": 0.00848570116580492,
+          "p": 0.6145136939681248,
+          "n": 3525
+        },
+        {
+          "feature": "rider",
+          "value": -0.006261722672726122,
+          "p": 0.7101601779502,
+          "n": 3525
+        },
+        {
+          "feature": "bicycle",
+          "value": 0.004395049215644403,
+          "p": 0.794207951865445,
+          "n": 3525
+        },
+        {
+          "feature": "fence",
+          "value": -0.0021083543086827593,
+          "p": 0.9004187773544975,
+          "n": 3525
+        },
+        {
+          "feature": "pole",
+          "value": -0.0013881543203333692,
+          "p": 0.9343382534870748,
+          "n": 3525
+        }
+      ],
+      "POSSESSION OF WEAPONS": [
+        {
+          "feature": "building",
+          "value": 0.10085926989635435,
+          "p": 1.9565736646060644e-09,
+          "n": 3525
+        },
+        {
+          "feature": "sky",
+          "value": -0.08126057920096454,
+          "p": 1.3594529690746844e-06,
+          "n": 3525
+        },
+        {
+          "feature": "terrain",
+          "value": -0.05443339767981091,
+          "p": 0.001224741012778914,
+          "n": 3525
+        },
+        {
+          "feature": "person",
+          "value": 0.048563472137322566,
+          "p": 0.003926894226304104,
+          "n": 3525
+        },
+        {
+          "feature": "train",
+          "value": 0.04293553315749899,
+          "p": 0.0107899930728551,
+          "n": 3525
+        },
+        {
+          "feature": "pole",
+          "value": 0.0408717559489946,
+          "p": 0.01523351483067652,
+          "n": 3525
+        },
+        {
+          "feature": "bicycle",
+          "value": 0.0388619393445483,
+          "p": 0.021035145794550642,
+          "n": 3525
+        },
+        {
+          "feature": "traffic_sign",
+          "value": 0.03173752837019161,
+          "p": 0.0595490640337764,
+          "n": 3525
+        },
+        {
+          "feature": "fence",
+          "value": 0.027140805909806314,
+          "p": 0.10715328073416432,
+          "n": 3525
+        },
+        {
+          "feature": "traffic_light",
+          "value": 0.024037399213346283,
+          "p": 0.1536255889233928,
+          "n": 3525
+        },
+        {
+          "feature": "vegetation",
+          "value": -0.018857284353074415,
+          "p": 0.2630157322498692,
+          "n": 3525
+        },
+        {
+          "feature": "sidewalk",
+          "value": 0.018371028918982773,
+          "p": 0.27552615889283644,
+          "n": 3525
+        },
+        {
+          "feature": "wall",
+          "value": 0.01398220194110497,
+          "p": 0.40659906632746406,
+          "n": 3525
+        },
+        {
+          "feature": "bus",
+          "value": 0.012787140111807252,
+          "p": 0.4478787913337608,
+          "n": 3525
+        },
+        {
+          "feature": "rider",
+          "value": -0.009783541444602167,
+          "p": 0.5614605445168594,
+          "n": 3525
+        },
+        {
+          "feature": "truck",
+          "value": -0.008268118909940465,
+          "p": 0.6236197983172219,
+          "n": 3525
+        },
+        {
+          "feature": "road",
+          "value": -0.005252797189596647,
+          "p": 0.7552236132261501,
+          "n": 3525
+        },
+        {
+          "feature": "car",
+          "value": -0.003394289988851199,
+          "p": 0.8403436664230143,
+          "n": 3525
+        },
+        {
+          "feature": "motorcycle",
+          "value": -0.00015057168291331396,
+          "p": 0.9928697773581603,
+          "n": 3525
+        }
+      ],
       "total_crime": [
         {
           "feature": "sky",
@@ -1915,6 +2266,354 @@ window.ANALYSIS_SUMMARY = {
           "n": 3525
         }
       ],
+      "ARSON AND CRIMINAL DAMAGE": [
+        {
+          "feature": "vegetation",
+          "value": 0.10110617786855146,
+          "p": 1.7862610473001498e-09,
+          "n": 3525
+        },
+        {
+          "feature": "sky",
+          "value": -0.08066154235826474,
+          "p": 1.625694630610586e-06,
+          "n": 3525
+        },
+        {
+          "feature": "building",
+          "value": -0.06907054608159709,
+          "p": 4.055688385985961e-05,
+          "n": 3525
+        },
+        {
+          "feature": "train",
+          "value": -0.051854375175563835,
+          "p": 0.0020723499168392077,
+          "n": 3525
+        },
+        {
+          "feature": "bus",
+          "value": -0.04857475759947872,
+          "p": 0.003918535265914457,
+          "n": 3525
+        },
+        {
+          "feature": "terrain",
+          "value": 0.04299641182885014,
+          "p": 0.010678547157391336,
+          "n": 3525
+        },
+        {
+          "feature": "traffic_sign",
+          "value": -0.038835272608651814,
+          "p": 0.021123566892298166,
+          "n": 3525
+        },
+        {
+          "feature": "car",
+          "value": -0.032826444903843066,
+          "p": 0.05131977748434756,
+          "n": 3525
+        },
+        {
+          "feature": "wall",
+          "value": -0.021885728556506084,
+          "p": 0.19391377473613614,
+          "n": 3525
+        },
+        {
+          "feature": "pole",
+          "value": -0.02075004366383063,
+          "p": 0.21807565338160817,
+          "n": 3525
+        },
+        {
+          "feature": "truck",
+          "value": -0.019970824162586078,
+          "p": 0.23585946217515485,
+          "n": 3525
+        },
+        {
+          "feature": "rider",
+          "value": 0.016595589944879658,
+          "p": 0.3246108416455946,
+          "n": 3525
+        },
+        {
+          "feature": "motorcycle",
+          "value": 0.01507269878755448,
+          "p": 0.37098740409329234,
+          "n": 3525
+        },
+        {
+          "feature": "person",
+          "value": 0.01447265464139599,
+          "p": 0.39033693445896855,
+          "n": 3525
+        },
+        {
+          "feature": "sidewalk",
+          "value": -0.010663155320623403,
+          "p": 0.5268099033288859,
+          "n": 3525
+        },
+        {
+          "feature": "road",
+          "value": -0.010526478539204687,
+          "p": 0.5321215730920528,
+          "n": 3525
+        },
+        {
+          "feature": "traffic_light",
+          "value": -0.009707075561637009,
+          "p": 0.5645240386533417,
+          "n": 3525
+        },
+        {
+          "feature": "bicycle",
+          "value": 0.007192579869286204,
+          "p": 0.669459569857457,
+          "n": 3525
+        },
+        {
+          "feature": "fence",
+          "value": -0.004194107131797735,
+          "p": 0.8034194985756388,
+          "n": 3525
+        }
+      ],
+      "MISCELLANEOUS CRIMES AGAINST SOCIETY": [
+        {
+          "feature": "vegetation",
+          "value": 0.12159969646011977,
+          "p": 4.3590992503422683e-13,
+          "n": 3525
+        },
+        {
+          "feature": "train",
+          "value": -0.10747088386080555,
+          "p": 1.5845773383791979e-10,
+          "n": 3525
+        },
+        {
+          "feature": "bus",
+          "value": -0.09412125721167397,
+          "p": 2.1610246399837514e-08,
+          "n": 3525
+        },
+        {
+          "feature": "sky",
+          "value": -0.09385699562545367,
+          "p": 2.366755809965471e-08,
+          "n": 3525
+        },
+        {
+          "feature": "truck",
+          "value": -0.06972183426408218,
+          "p": 3.426742875522167e-05,
+          "n": 3525
+        },
+        {
+          "feature": "building",
+          "value": -0.0626083812930081,
+          "p": 0.00019961950875476136,
+          "n": 3525
+        },
+        {
+          "feature": "traffic_sign",
+          "value": -0.05502660931675632,
+          "p": 0.0010817973921972718,
+          "n": 3525
+        },
+        {
+          "feature": "wall",
+          "value": -0.03631843854004561,
+          "p": 0.031065368637259127,
+          "n": 3525
+        },
+        {
+          "feature": "motorcycle",
+          "value": -0.029862641111163154,
+          "p": 0.07626805382422473,
+          "n": 3525
+        },
+        {
+          "feature": "traffic_light",
+          "value": -0.027065510349364625,
+          "p": 0.10813116260618293,
+          "n": 3525
+        },
+        {
+          "feature": "fence",
+          "value": -0.026023088153502755,
+          "p": 0.12240702039206203,
+          "n": 3525
+        },
+        {
+          "feature": "pole",
+          "value": -0.024331493521275723,
+          "p": 0.14865352593059805,
+          "n": 3525
+        },
+        {
+          "feature": "car",
+          "value": -0.021552118796554314,
+          "p": 0.20079815375722818,
+          "n": 3525
+        },
+        {
+          "feature": "sidewalk",
+          "value": -0.013725920751351518,
+          "p": 0.4152550824134875,
+          "n": 3525
+        },
+        {
+          "feature": "bicycle",
+          "value": -0.011031401928340992,
+          "p": 0.5126346321024915,
+          "n": 3525
+        },
+        {
+          "feature": "rider",
+          "value": -0.010687904447195293,
+          "p": 0.5258509794559896,
+          "n": 3525
+        },
+        {
+          "feature": "person",
+          "value": -0.006038704596294047,
+          "p": 0.7200407518894489,
+          "n": 3525
+        },
+        {
+          "feature": "terrain",
+          "value": 0.00541335319843524,
+          "p": 0.7479918446026399,
+          "n": 3525
+        },
+        {
+          "feature": "road",
+          "value": -0.0009361278782868685,
+          "p": 0.9556924794231076,
+          "n": 3525
+        }
+      ],
+      "POSSESSION OF WEAPONS": [
+        {
+          "feature": "sky",
+          "value": -0.07942181355466264,
+          "p": 2.3446238138268395e-06,
+          "n": 3525
+        },
+        {
+          "feature": "bicycle",
+          "value": 0.07932732166006386,
+          "p": 2.4104596429471196e-06,
+          "n": 3525
+        },
+        {
+          "feature": "traffic_light",
+          "value": 0.07308818162191705,
+          "p": 1.4014025115162273e-05,
+          "n": 3525
+        },
+        {
+          "feature": "building",
+          "value": 0.0594638281169975,
+          "p": 0.0004118949033709801,
+          "n": 3525
+        },
+        {
+          "feature": "rider",
+          "value": 0.057439454015745385,
+          "p": 0.0006451506521206498,
+          "n": 3525
+        },
+        {
+          "feature": "fence",
+          "value": 0.05209419277431595,
+          "p": 0.001975273070161563,
+          "n": 3525
+        },
+        {
+          "feature": "person",
+          "value": 0.045711908478894815,
+          "p": 0.006638581247305153,
+          "n": 3525
+        },
+        {
+          "feature": "motorcycle",
+          "value": 0.04540475060929094,
+          "p": 0.007013720802923384,
+          "n": 3525
+        },
+        {
+          "feature": "pole",
+          "value": 0.0418657940347779,
+          "p": 0.012924167594591736,
+          "n": 3525
+        },
+        {
+          "feature": "traffic_sign",
+          "value": 0.04170693392112514,
+          "p": 0.01327106136676317,
+          "n": 3525
+        },
+        {
+          "feature": "train",
+          "value": 0.039851562566341474,
+          "p": 0.017973860394300677,
+          "n": 3525
+        },
+        {
+          "feature": "sidewalk",
+          "value": 0.039503769915869374,
+          "p": 0.01900208580433876,
+          "n": 3525
+        },
+        {
+          "feature": "terrain",
+          "value": -0.038912774322031815,
+          "p": 0.020867480740236456,
+          "n": 3525
+        },
+        {
+          "feature": "truck",
+          "value": 0.028829361434135784,
+          "p": 0.08700782730426625,
+          "n": 3525
+        },
+        {
+          "feature": "vegetation",
+          "value": 0.020023402419459865,
+          "p": 0.23462814828980444,
+          "n": 3525
+        },
+        {
+          "feature": "wall",
+          "value": 0.017940662731624486,
+          "p": 0.2869321605128148,
+          "n": 3525
+        },
+        {
+          "feature": "bus",
+          "value": 0.016580206759057334,
+          "p": 0.3250595907235644,
+          "n": 3525
+        },
+        {
+          "feature": "road",
+          "value": -0.015538774721399723,
+          "p": 0.3563762296820209,
+          "n": 3525
+        },
+        {
+          "feature": "car",
+          "value": -0.0077921272756556,
+          "p": 0.6437408237843303,
+          "n": 3525
+        }
+      ],
       "total_crime": [
         {
           "feature": "sky",
@@ -2041,6 +2740,9 @@ window.ANALYSIS_SUMMARY = {
     "DRUG OFFENCES",
     "VEHICLE OFFENCES",
     "VIOLENCE AGAINST THE PERSON",
+    "ARSON AND CRIMINAL DAMAGE",
+    "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+    "POSSESSION OF WEAPONS",
     "total_crime"
   ],
   "method_options": [
@@ -2065,31 +2767,45 @@ window.ANALYSIS_SUMMARY = {
     "total": [
       {
         "year": "2019",
-        "value": 881530.0
+        "value": 881530.0,
+        "months": 12,
+        "partial": false
       },
       {
         "year": "2020",
-        "value": 750625.0
+        "value": 750625.0,
+        "months": 12,
+        "partial": false
       },
       {
         "year": "2021",
-        "value": 748649.0
+        "value": 748649.0,
+        "months": 12,
+        "partial": false
       },
       {
         "year": "2022",
-        "value": 811855.0
+        "value": 811855.0,
+        "months": 12,
+        "partial": false
       },
       {
         "year": "2023",
-        "value": 876274.0
+        "value": 876274.0,
+        "months": 12,
+        "partial": false
       },
       {
         "year": "2024",
-        "value": 877097.0
+        "value": 877097.0,
+        "months": 12,
+        "partial": false
       },
       {
         "year": "2025",
-        "value": 425922.0
+        "value": 425922.0,
+        "months": 6,
+        "partial": true
       }
     ],
     "categories": {
@@ -2241,6 +2957,156 @@ window.ANALYSIS_SUMMARY = {
         {
           "year": "2025",
           "value": 15560.0
+        }
+      ],
+      "PUBLIC ORDER OFFENCES": [
+        {
+          "year": "2019",
+          "value": 49843.0
+        },
+        {
+          "year": "2020",
+          "value": 51842.0
+        },
+        {
+          "year": "2021",
+          "value": 56619.0
+        },
+        {
+          "year": "2022",
+          "value": 54982.0
+        },
+        {
+          "year": "2023",
+          "value": 57989.0
+        },
+        {
+          "year": "2024",
+          "value": 54147.0
+        },
+        {
+          "year": "2025",
+          "value": 26644.0
+        }
+      ],
+      "DRUG OFFENCES": [
+        {
+          "year": "2019",
+          "value": 47455.0
+        },
+        {
+          "year": "2020",
+          "value": 54570.0
+        },
+        {
+          "year": "2021",
+          "value": 45378.0
+        },
+        {
+          "year": "2022",
+          "value": 43369.0
+        },
+        {
+          "year": "2023",
+          "value": 38334.0
+        },
+        {
+          "year": "2024",
+          "value": 38031.0
+        },
+        {
+          "year": "2025",
+          "value": 25495.0
+        }
+      ],
+      "ARSON AND CRIMINAL DAMAGE": [
+        {
+          "year": "2019",
+          "value": 55500.0
+        },
+        {
+          "year": "2020",
+          "value": 49982.0
+        },
+        {
+          "year": "2021",
+          "value": 51781.0
+        },
+        {
+          "year": "2022",
+          "value": 51942.0
+        },
+        {
+          "year": "2023",
+          "value": 56052.0
+        },
+        {
+          "year": "2024",
+          "value": 55109.0
+        },
+        {
+          "year": "2025",
+          "value": 26807.0
+        }
+      ],
+      "MISCELLANEOUS CRIMES AGAINST SOCIETY": [
+        {
+          "year": "2019",
+          "value": 11147.0
+        },
+        {
+          "year": "2020",
+          "value": 11073.0
+        },
+        {
+          "year": "2021",
+          "value": 11142.0
+        },
+        {
+          "year": "2022",
+          "value": 11736.0
+        },
+        {
+          "year": "2023",
+          "value": 11072.0
+        },
+        {
+          "year": "2024",
+          "value": 10089.0
+        },
+        {
+          "year": "2025",
+          "value": 6036.0
+        }
+      ],
+      "POSSESSION OF WEAPONS": [
+        {
+          "year": "2019",
+          "value": 7257.0
+        },
+        {
+          "year": "2020",
+          "value": 6725.0
+        },
+        {
+          "year": "2021",
+          "value": 5978.0
+        },
+        {
+          "year": "2022",
+          "value": 6280.0
+        },
+        {
+          "year": "2023",
+          "value": 6281.0
+        },
+        {
+          "year": "2024",
+          "value": 4580.0
+        },
+        {
+          "year": "2025",
+          "value": 2540.0
         }
       ]
     },
@@ -2686,37 +3552,44 @@ window.ANALYSIS_SUMMARY = {
     "yoy": [
       {
         "year": "2020",
-        "change_pct": -0.14849749866709017
+        "change_pct": -0.14849749866709017,
+        "partial": false
       },
       {
         "year": "2021",
-        "change_pct": -0.002632472939217319
+        "change_pct": -0.002632472939217319,
+        "partial": false
       },
       {
         "year": "2022",
-        "change_pct": 0.08442674738094888
+        "change_pct": 0.08442674738094888,
+        "partial": false
       },
       {
         "year": "2023",
-        "change_pct": 0.0793479131125632
+        "change_pct": 0.0793479131125632,
+        "partial": false
       },
       {
         "year": "2024",
-        "change_pct": 0.0009392039476236885
+        "change_pct": 0.0009392039476236885,
+        "partial": false
       },
       {
         "year": "2025",
-        "change_pct": -0.5143957851868152
+        "change_pct": null,
+        "partial": true
       }
     ]
   },
   "quality_notes": [
-    "Usable merged LSOAs: 3525 / 4988 (coverage 70.67%).",
-    "Functional-zone samples are imbalanced (Residential and Commercial dominate), so small-zone variance is higher.",
-    "Current evidence is correlational; stronger causal claims require quasi-experimental or panel identification strategies.",
+    "Coverage: 3,525 of 4,988 MPS LSOAs (70.7%) had sufficient street-view sampling density for spatial analysis.",
+    "Sample imbalance: Residential (n=1,410) and Commercial (n=1,069) zones dominate the dataset; smaller zones (e.g. Hotel n=5, Civil n=4) have higher statistical variance and should be interpreted with caution.",
+    "All correlations are observational. No causal claims are made — confounding variables such as deprivation index, population density, and police patrol intensity have not been controlled for in this study.",
+    "Crime data source: Metropolitan Police Service open dataset (MPS LSOA Level Crime, Jan 2019 – Jun 2025), covering 10 major crime categories across Greater London.",
     "THEFT standardized linear model: train R²=0.089, test R²=0.057 (for scenario simulation, not causal inference).",
-    "Average holdout R² across scenario targets: 0.024.",
-    "Zone-difference tests: 8/8 crime types reach p<0.05."
+    "Average holdout R² across scenario targets: 0.021.",
+    "Zone-difference tests: 10/11 crime types reach p<0.05."
   ],
   "zone_crime_stats": [
     {
@@ -2763,6 +3636,24 @@ window.ANALYSIS_SUMMARY = {
         "median": 0.37,
         "q25": 0.33,
         "q75": 0.42
+      },
+      "ARSON AND CRIMINAL DAMAGE": {
+        "mean": 0.3026737588652482,
+        "median": 0.3,
+        "q25": 0.27,
+        "q75": 0.34
+      },
+      "MISCELLANEOUS CRIMES AGAINST SOCIETY": {
+        "mean": 0.16699290780141843,
+        "median": 0.17,
+        "q25": 0.15,
+        "q75": 0.19
+      },
+      "POSSESSION OF WEAPONS": {
+        "mean": 0.15173049645390072,
+        "median": 0.15,
+        "q25": 0.13,
+        "q75": 0.18
       },
       "total_crime": {
         "mean": 3.8094964539007092,
@@ -2816,6 +3707,24 @@ window.ANALYSIS_SUMMARY = {
         "q25": 0.31,
         "q75": 0.42
       },
+      "ARSON AND CRIMINAL DAMAGE": {
+        "mean": 0.30257249766136574,
+        "median": 0.3,
+        "q25": 0.26,
+        "q75": 0.34
+      },
+      "MISCELLANEOUS CRIMES AGAINST SOCIETY": {
+        "mean": 0.16500467726847523,
+        "median": 0.16,
+        "q25": 0.14,
+        "q75": 0.18
+      },
+      "POSSESSION OF WEAPONS": {
+        "mean": 0.15663236669784844,
+        "median": 0.15,
+        "q25": 0.13,
+        "q75": 0.18
+      },
       "total_crime": {
         "mean": 3.913199251637044,
         "median": 3.82,
@@ -2867,6 +3776,24 @@ window.ANALYSIS_SUMMARY = {
         "median": 0.35,
         "q25": 0.32,
         "q75": 0.4
+      },
+      "ARSON AND CRIMINAL DAMAGE": {
+        "mean": 0.3070932754880694,
+        "median": 0.31,
+        "q25": 0.27,
+        "q75": 0.34
+      },
+      "MISCELLANEOUS CRIMES AGAINST SOCIETY": {
+        "mean": 0.16466377440347071,
+        "median": 0.16,
+        "q25": 0.15,
+        "q75": 0.18
+      },
+      "POSSESSION OF WEAPONS": {
+        "mean": 0.15197396963123644,
+        "median": 0.16,
+        "q25": 0.13,
+        "q75": 0.17
       },
       "total_crime": {
         "mean": 3.784056399132321,
@@ -2920,6 +3847,24 @@ window.ANALYSIS_SUMMARY = {
         "q25": 0.34,
         "q75": 0.42
       },
+      "ARSON AND CRIMINAL DAMAGE": {
+        "mean": 0.31703241895261847,
+        "median": 0.32,
+        "q25": 0.28,
+        "q75": 0.35
+      },
+      "MISCELLANEOUS CRIMES AGAINST SOCIETY": {
+        "mean": 0.1700997506234414,
+        "median": 0.17,
+        "q25": 0.15,
+        "q75": 0.19
+      },
+      "POSSESSION OF WEAPONS": {
+        "mean": 0.15418952618453866,
+        "median": 0.16,
+        "q25": 0.13,
+        "q75": 0.18
+      },
       "total_crime": {
         "mean": 3.9191271820448876,
         "median": 3.9,
@@ -2971,6 +3916,24 @@ window.ANALYSIS_SUMMARY = {
         "median": 0.37,
         "q25": 0.33,
         "q75": 0.42
+      },
+      "ARSON AND CRIMINAL DAMAGE": {
+        "mean": 0.31584158415841584,
+        "median": 0.31,
+        "q25": 0.28,
+        "q75": 0.35
+      },
+      "MISCELLANEOUS CRIMES AGAINST SOCIETY": {
+        "mean": 0.17069306930693065,
+        "median": 0.17,
+        "q25": 0.15,
+        "q75": 0.19
+      },
+      "POSSESSION OF WEAPONS": {
+        "mean": 0.16079207920792077,
+        "median": 0.16,
+        "q25": 0.14,
+        "q75": 0.18
       },
       "total_crime": {
         "mean": 3.992079207920792,
@@ -3024,6 +3987,24 @@ window.ANALYSIS_SUMMARY = {
         "q25": 0.3,
         "q75": 0.4
       },
+      "ARSON AND CRIMINAL DAMAGE": {
+        "mean": 0.2888888888888889,
+        "median": 0.29,
+        "q25": 0.24,
+        "q75": 0.34
+      },
+      "MISCELLANEOUS CRIMES AGAINST SOCIETY": {
+        "mean": 0.16111111111111112,
+        "median": 0.15,
+        "q25": 0.15,
+        "q75": 0.18
+      },
+      "POSSESSION OF WEAPONS": {
+        "mean": 0.15066666666666667,
+        "median": 0.15,
+        "q25": 0.13,
+        "q75": 0.17
+      },
       "total_crime": {
         "mean": 3.660666666666666,
         "median": 3.53,
@@ -3055,6 +4036,9 @@ window.ANALYSIS_SUMMARY = {
       "DRUG OFFENCES",
       "VEHICLE OFFENCES",
       "VIOLENCE AGAINST THE PERSON",
+      "ARSON AND CRIMINAL DAMAGE",
+      "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "POSSESSION OF WEAPONS",
       "total_crime"
     ],
     "matrix": [
@@ -3066,6 +4050,9 @@ window.ANALYSIS_SUMMARY = {
         -0.11771065978368109,
         -0.07891245335403618,
         -0.113670803578867,
+        -0.07951746707923499,
+        -0.0946187448426964,
+        -0.08126057920096454,
         -0.17236638890502115
       ],
       [
@@ -3076,6 +4063,9 @@ window.ANALYSIS_SUMMARY = {
         0.047283041550934,
         -0.04633627986240243,
         0.061372169174683154,
+        -0.013058554590845982,
+        -0.014844571447363859,
+        0.10085926989635435,
         0.12329628115083247
       ],
       [
@@ -3086,6 +4076,9 @@ window.ANALYSIS_SUMMARY = {
         0.04459129916233847,
         0.009703783935688829,
         0.04261155178304205,
+        0.04678723300849132,
+        0.027332143641734957,
+        0.048563472137322566,
         0.08113557502457733
       ],
       [
@@ -3096,6 +4089,9 @@ window.ANALYSIS_SUMMARY = {
         0.06746379343929988,
         0.1005991058653668,
         0.03855559804329521,
+        0.07503665506400474,
+        0.09172712641772442,
+        -0.018857284353074415,
         0.034984533806453263
       ],
       [
@@ -3106,6 +4102,9 @@ window.ANALYSIS_SUMMARY = {
         0.028227095050801114,
         -0.0018750276599354219,
         0.004336951815216179,
+        0.030563412580700684,
+        0.004395049215644403,
+        0.0388619393445483,
         0.05555650868340128
       ],
       [
@@ -3116,6 +4115,9 @@ window.ANALYSIS_SUMMARY = {
         -0.013704897785832898,
         0.03278245412944881,
         -0.02028989590557112,
+        0.0290027571707706,
+        0.018850808849887647,
+        -0.05443339767981091,
         -0.03430423025279744
       ],
       [
@@ -3126,6 +4128,9 @@ window.ANALYSIS_SUMMARY = {
         -0.02345280509160073,
         -0.04470554234436916,
         -0.01810397638730428,
+        -0.011068826164922498,
+        -0.033265769001693535,
+        0.04293553315749899,
         0.013148812167000782
       ],
       [
@@ -3136,6 +4141,9 @@ window.ANALYSIS_SUMMARY = {
         -0.006875337031342776,
         -0.026212961681135707,
         0.007693497993954639,
+        -0.019212779775247664,
+        -0.012383905646048342,
+        0.018371028918982773,
         0.01859755605396273
       ],
       [
@@ -3146,6 +4154,9 @@ window.ANALYSIS_SUMMARY = {
         -0.02508838596781324,
         -0.031500507455630815,
         -0.02626281083343457,
+        0.004076628109883505,
+        -0.022669029264836306,
+        0.03173752837019161,
         0.008302059742603021
       ],
       [
@@ -3156,6 +4167,9 @@ window.ANALYSIS_SUMMARY = {
         0.006434736693896823,
         -0.012576975846165524,
         0.020369334957419463,
+        0.012349874312076733,
+        -0.0013881543203333692,
+        0.0408717559489946,
         0.02663985011068127
       ],
       [
@@ -3166,6 +4180,9 @@ window.ANALYSIS_SUMMARY = {
         -0.03065144642134947,
         -0.05062986790286752,
         -0.020468691837550235,
+        -0.014954864146023482,
+        -0.03712477734996267,
+        0.012787140111807252,
         -0.014988667764661071
       ],
       [
@@ -3176,6 +4193,9 @@ window.ANALYSIS_SUMMARY = {
         -0.002014841719053158,
         -0.03492932638203377,
         -0.03621585232550843,
+        -0.009985901362440947,
+        -0.006261722672726122,
+        -0.009783541444602167,
         -0.00980993508888466
       ]
     ]
@@ -4113,6 +5133,405 @@ window.ANALYSIS_SUMMARY = {
       "n": 3525
     },
     {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "sky",
+      "corr": -0.07951746707923499,
+      "sig": 5.642115049823077,
+      "n": 3525
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "vegetation",
+      "corr": 0.07503665506400474,
+      "sig": 5.085918951697619,
+      "n": 3525
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "person",
+      "corr": 0.04678723300849132,
+      "sig": 2.2625557726494696,
+      "n": 3525
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "car",
+      "corr": -0.03086655366477952,
+      "sig": 1.1746139524389774,
+      "n": 3525
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "bicycle",
+      "corr": 0.030563412580700684,
+      "sig": 1.1572729509235367,
+      "n": 3525
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "terrain",
+      "corr": 0.0290027571707706,
+      "sig": 1.0699437345725926,
+      "n": 3525
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "sidewalk",
+      "corr": -0.019212779775247664,
+      "sig": 0.5949590323124734,
+      "n": 3525
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "bus",
+      "corr": -0.014954864146023482,
+      "sig": 0.42627053420510724,
+      "n": 3525
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "building",
+      "corr": -0.013058554590845982,
+      "sig": 0.3582283366103892,
+      "n": 3525
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "pole",
+      "corr": 0.012349874312076733,
+      "sig": 0.3338961221028556,
+      "n": 3525
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "train",
+      "corr": -0.011068826164922498,
+      "sig": 0.2914047112535365,
+      "n": 3525
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "motorcycle",
+      "corr": -0.011053219979624192,
+      "sig": 0.290898828672515,
+      "n": 3525
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "rider",
+      "corr": -0.009985901362440947,
+      "sig": 0.2569668985761735,
+      "n": 3525
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "wall",
+      "corr": -0.009615890611409963,
+      "sig": 0.24550816560006913,
+      "n": 3525
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "fence",
+      "corr": 0.007544961780501234,
+      "sig": 0.18422700184503754,
+      "n": 3525
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "truck",
+      "corr": -0.006977701288995435,
+      "sig": 0.16827455540215697,
+      "n": 3525
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "road",
+      "corr": 0.006228477980068423,
+      "sig": 0.14774574542806082,
+      "n": 3525
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "traffic_sign",
+      "corr": 0.004076628109883505,
+      "sig": 0.09214934892676234,
+      "n": 3525
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "feature": "traffic_light",
+      "corr": -0.0017354943657009142,
+      "sig": 0.03717588917676643,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "sky",
+      "corr": -0.0946187448426964,
+      "sig": 7.739979393310238,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "vegetation",
+      "corr": 0.09172712641772442,
+      "sig": 7.311435494115372,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "bus",
+      "corr": -0.03712477734996267,
+      "sig": 1.560437903285069,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "train",
+      "corr": -0.033265769001693535,
+      "sig": 1.31622875265495,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "person",
+      "corr": 0.027332143641734957,
+      "sig": 0.9800540359055505,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "traffic_sign",
+      "corr": -0.022669029264836306,
+      "sig": 0.7485241024648901,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "motorcycle",
+      "corr": -0.021015584895554062,
+      "sig": 0.6731703586608638,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "truck",
+      "corr": -0.020618119058415946,
+      "sig": 0.6555747663095562,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "terrain",
+      "corr": 0.018850808849887647,
+      "sig": 0.5797475845402029,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "car",
+      "corr": -0.018528720890678644,
+      "sig": 0.5663496201509265,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "building",
+      "corr": -0.014844571447363859,
+      "sig": 0.4221951186737561,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "sidewalk",
+      "corr": -0.012383905646048342,
+      "sig": 0.33505106149247277,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "wall",
+      "corr": -0.011830985807986354,
+      "sig": 0.3164544138686931,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "road",
+      "corr": 0.01181321063571908,
+      "sig": 0.3158625033687074,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "traffic_light",
+      "corr": 0.00848570116580492,
+      "sig": 0.21146843474900487,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "rider",
+      "corr": -0.006261722672726122,
+      "sig": 0.14864368430329852,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "bicycle",
+      "corr": 0.004395049215644403,
+      "sig": 0.10006576895433804,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "fence",
+      "corr": -0.0021083543086827593,
+      "sig": 0.04555545678967494,
+      "n": 3525
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "feature": "pole",
+      "corr": -0.0013881543203333692,
+      "sig": 0.029495869991848042,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "building",
+      "corr": 0.10085926989635435,
+      "sig": 8.708503796355343,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "sky",
+      "corr": -0.08126057920096454,
+      "sig": 5.8666358124418,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "terrain",
+      "corr": -0.05443339767981091,
+      "sig": 2.9119557387382136,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "person",
+      "corr": 0.048563472137322566,
+      "sig": 2.405950796603563,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "train",
+      "corr": 0.04293553315749899,
+      "sig": 1.9669788341328234,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "pole",
+      "corr": 0.0408717559489946,
+      "sig": 1.8171998802849285,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "bicycle",
+      "corr": 0.0388619393445483,
+      "sig": 1.6770544735424255,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "traffic_sign",
+      "corr": 0.03173752837019161,
+      "sig": 1.225125060178863,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "fence",
+      "corr": 0.027140805909806314,
+      "sig": 0.9699945275345915,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "traffic_light",
+      "corr": 0.024037399213346283,
+      "sig": 0.8135364392352568,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "vegetation",
+      "corr": -0.018857284353074415,
+      "sig": 0.5800182734685629,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "sidewalk",
+      "corr": 0.018371028918982773,
+      "sig": 0.559837162244157,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "wall",
+      "corr": 0.01398220194110497,
+      "sig": 0.3908336229662926,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "bus",
+      "corr": 0.012787140111807252,
+      "sig": 0.34883950246889806,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "rider",
+      "corr": -0.009783541444602167,
+      "sig": 0.25068075748029467,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "truck",
+      "corr": -0.008268118909940465,
+      "sig": 0.20508010553670442,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "road",
+      "corr": -0.005252797189596647,
+      "sig": 0.1219244396137287,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "car",
+      "corr": -0.003394289988851199,
+      "sig": 0.0755430688096914,
+      "n": 3525
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "feature": "motorcycle",
+      "corr": -0.00015057168291331396,
+      "sig": 0.0031077088897361396,
+      "n": 3525
+    },
+    {
       "crime": "total_crime",
       "feature": "sky",
       "corr": -0.17236638890502115,
@@ -4417,6 +5836,21 @@ window.ANALYSIS_SUMMARY = {
       "crime": "VIOLENCE AGAINST THE PERSON",
       "H": 20.38045856022386,
       "p": 0.0010600510613631208
+    },
+    {
+      "crime": "ARSON AND CRIMINAL DAMAGE",
+      "H": 29.012683957763297,
+      "p": 2.3055110021136992e-05
+    },
+    {
+      "crime": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "H": 21.607358464958764,
+      "p": 0.0006216557941685284
+    },
+    {
+      "crime": "POSSESSION OF WEAPONS",
+      "H": 8.340752091919226,
+      "p": 0.13842911496857763
     },
     {
       "crime": "total_crime",
@@ -4831,6 +6265,180 @@ window.ANALYSIS_SUMMARY = {
         }
       ]
     },
+    "ARSON AND CRIMINAL DAMAGE": {
+      "target": "ARSON AND CRIMINAL DAMAGE",
+      "n": 3525,
+      "r2_train": 0.016091667860746228,
+      "r2_test": 0.006850035805425758,
+      "y_mean": 0.3051829787234043,
+      "y_std": 0.061111703278930375,
+      "features": [
+        {
+          "feature": "sky",
+          "beta_std": -0.06923178420296949,
+          "mean": 0.21638441906402095,
+          "std": 0.10688453690681056,
+          "q10": 0.08129163953993049,
+          "q90": 0.36106731489987925
+        },
+        {
+          "feature": "person",
+          "beta_std": 0.053977474473887906,
+          "mean": 0.006463443082819415,
+          "std": 0.009359214296350154,
+          "q10": 0.00046847090761880007,
+          "q90": 0.016629024946624275
+        },
+        {
+          "feature": "vegetation",
+          "beta_std": 0.05194695879481011,
+          "mean": 0.20297245653531182,
+          "std": 0.13161470952095938,
+          "q10": 0.06475234229285431,
+          "q90": 0.37772056337386833
+        },
+        {
+          "feature": "sidewalk",
+          "beta_std": -0.03615785582352286,
+          "mean": 0.04277287064615772,
+          "std": 0.02574785891833709,
+          "q10": 0.014370140965210661,
+          "q90": 0.07470596727983421
+        },
+        {
+          "feature": "bicycle",
+          "beta_std": 0.032408617504526185,
+          "mean": 0.0011115854493211148,
+          "std": 0.0028211952068262773,
+          "q10": 0.0,
+          "q90": 0.0027797247439013996
+        },
+        {
+          "feature": "road",
+          "beta_std": 0.030225347454943374,
+          "mean": 0.2489752338676275,
+          "std": 0.08924628660255791,
+          "q10": 0.13743940466070642,
+          "q90": 0.34843979894980986
+        }
+      ]
+    },
+    "MISCELLANEOUS CRIMES AGAINST SOCIETY": {
+      "target": "MISCELLANEOUS CRIMES AGAINST SOCIETY",
+      "n": 3525,
+      "r2_train": 0.019436011349481808,
+      "r2_test": 0.015733241342363646,
+      "y_mean": 0.16651914893617023,
+      "y_std": 0.03158592898608474,
+      "features": [
+        {
+          "feature": "sky",
+          "beta_std": -0.0811913817642422,
+          "mean": 0.21638441906402095,
+          "std": 0.10688453690681056,
+          "q10": 0.08129163953993049,
+          "q90": 0.36106731489987925
+        },
+        {
+          "feature": "vegetation",
+          "beta_std": 0.07011663458054365,
+          "mean": 0.20297245653531182,
+          "std": 0.13161470952095938,
+          "q10": 0.06475234229285431,
+          "q90": 0.37772056337386833
+        },
+        {
+          "feature": "sidewalk",
+          "beta_std": -0.03905499428156839,
+          "mean": 0.04277287064615772,
+          "std": 0.02574785891833709,
+          "q10": 0.014370140965210661,
+          "q90": 0.07470596727983421
+        },
+        {
+          "feature": "person",
+          "beta_std": 0.0388996366306954,
+          "mean": 0.006463443082819415,
+          "std": 0.009359214296350154,
+          "q10": 0.00046847090761880007,
+          "q90": 0.016629024946624275
+        },
+        {
+          "feature": "bus",
+          "beta_std": -0.032576794917231935,
+          "mean": 0.002904856674680517,
+          "std": 0.009601928306212577,
+          "q10": 0.0,
+          "q90": 0.007065499611999579
+        },
+        {
+          "feature": "road",
+          "beta_std": 0.029621293568453007,
+          "mean": 0.2489752338676275,
+          "std": 0.08924628660255791,
+          "q10": 0.13743940466070642,
+          "q90": 0.34843979894980986
+        }
+      ]
+    },
+    "POSSESSION OF WEAPONS": {
+      "target": "POSSESSION OF WEAPONS",
+      "n": 3525,
+      "r2_train": 0.01893423819193074,
+      "r2_test": 0.011908703460135839,
+      "y_mean": 0.15375035460992909,
+      "y_std": 0.0377825818702488,
+      "features": [
+        {
+          "feature": "building",
+          "beta_std": 0.07692447934755797,
+          "mean": 0.1499053015266971,
+          "std": 0.10578585401915425,
+          "q10": 0.03461201768428322,
+          "q90": 0.2926750024717453
+        },
+        {
+          "feature": "sky",
+          "beta_std": -0.05515450966816507,
+          "mean": 0.21638441906402095,
+          "std": 0.10688453690681056,
+          "q10": 0.08129163953993049,
+          "q90": 0.36106731489987925
+        },
+        {
+          "feature": "sidewalk",
+          "beta_std": -0.03573611142584243,
+          "mean": 0.04277287064615772,
+          "std": 0.02574785891833709,
+          "q10": 0.014370140965210661,
+          "q90": 0.07470596727983421
+        },
+        {
+          "feature": "terrain",
+          "beta_std": -0.032783173725929086,
+          "mean": 0.019038991015942204,
+          "std": 0.029940040124204523,
+          "q10": 0.00038130789092082003,
+          "q90": 0.052096356285942814
+        },
+        {
+          "feature": "truck",
+          "beta_std": -0.030343329908070735,
+          "mean": 0.003075571047633299,
+          "std": 0.006555298612671968,
+          "q10": 0.0,
+          "q90": 0.00780819080494062
+        },
+        {
+          "feature": "train",
+          "beta_std": 0.02936251407275037,
+          "mean": 0.0037241766817977364,
+          "std": 0.0075728131937953126,
+          "q10": 0.0,
+          "q90": 0.009618711358830096
+        }
+      ]
+    },
     "total_crime": {
       "target": "total_crime",
       "n": 3525,
@@ -4892,7 +6500,7 @@ window.ANALYSIS_SUMMARY = {
   },
   "evidence_tiers": {
     "strong": 2,
-    "moderate": 15,
-    "weak": 135
+    "moderate": 16,
+    "weak": 191
   }
 };
