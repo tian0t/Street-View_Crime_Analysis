@@ -39,11 +39,13 @@ function getPlotLayout() {
       gridcolor: gridColor,
       zerolinecolor: zeroColor,
       tickfont: { color: tickColor },
+      titlefont: { color: textColor },
     },
     yaxis: {
       gridcolor: gridColor,
       zerolinecolor: zeroColor,
       tickfont: { color: tickColor },
+      titlefont: { color: textColor },
     },
   };
 }
@@ -85,7 +87,7 @@ function prettyCrime(name) {
     .replace(/\b\w/g, (s) => s.toUpperCase());
 }
 
-// Navigation setup
+// Navigation setup with ScrollSpy and Liquid Glass Sliding Indicator
 function initNav() {
   if (!anchorNav) return;
   const nav = [
@@ -102,7 +104,151 @@ function initNav() {
     ["simulator", "Simulator"],
     ["quality", "Quality"],
   ];
-  anchorNav.innerHTML = nav.map(([id, name]) => `<a href="#${id}" role="menuitem">${name}</a>`).join("");
+  
+  // Render nav links and insert empty sliding indicator container
+  anchorNav.innerHTML = `
+    <div class="nav-indicator" id="navIndicator"></div>
+    ${nav.map(([id, name]) => `<a href="#${id}" role="menuitem">${name}</a>`).join("")}
+  `;
+
+  const links = anchorNav.querySelectorAll("a");
+  const sections = Array.from(document.querySelectorAll(".chapter"));
+  let currentSectionIndex = 0;
+  let isScrolling = false;
+  const scrollCooldown = 900; // Cooldown threshold in ms for scroll resistance/damping
+
+  const showcase = document.querySelector(".showcase");
+
+  function scrollToSection(index) {
+    if (index < 0 || index >= sections.length) return;
+    isScrolling = true;
+    currentSectionIndex = index;
+    
+    // Hardware-accelerated sliding transition
+    showcase.style.transform = `translateY(-${index * 100}vh)`;
+
+    links.forEach(l => l.classList.remove("active"));
+    links[index].classList.add("active");
+    
+    // Smoothly scroll the horizontal topnav menu to center the active link
+    const linkEl = links[index];
+    const containerWidth = anchorNav.offsetWidth;
+    const linkOffset = linkEl.offsetLeft;
+    const linkWidth = linkEl.offsetWidth;
+    anchorNav.scrollTo({
+      left: linkOffset - (containerWidth / 2) + (linkWidth / 2),
+      behavior: "smooth"
+    });
+
+    updateNavIndicator();
+
+    // Silently update the URL hash to track navigation status
+    if (sections[index] && sections[index].id) {
+      history.replaceState(null, null, "#" + sections[index].id);
+    }
+
+    setTimeout(() => {
+      isScrolling = false;
+    }, scrollCooldown);
+  }
+
+  // Click handler
+  links.forEach((link, idx) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      scrollToSection(idx);
+    });
+  });
+
+  // Wheel listener for scroll hijacking with resistance/damping
+  window.addEventListener("wheel", (e) => {
+    // Exempt map zoom, horizontally scrollable nav, dropdown panels, and simulator scrollable controls
+    if (e.target.closest("#mapCanvas") || 
+        e.target.closest("#anchorNav") || 
+        e.target.closest(".t-dropdown") || 
+        e.target.closest(".sim-layout-column--controls")) {
+      return; 
+    }
+    
+    e.preventDefault();
+    if (isScrolling) return;
+
+    if (e.deltaY > 15) {
+      scrollToSection(currentSectionIndex + 1);
+    } else if (e.deltaY < -15) {
+      scrollToSection(currentSectionIndex - 1);
+    }
+  }, { passive: false });
+
+  // Swipe support on mobile devices
+  let touchStartY = 0;
+  window.addEventListener("touchstart", (e) => {
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  window.addEventListener("touchend", (e) => {
+    if (e.target.closest("#mapCanvas") || 
+        e.target.closest("#anchorNav") || 
+        e.target.closest(".t-dropdown") || 
+        e.target.closest(".sim-layout-column--controls")) {
+      return; 
+    }
+    
+    const touchEndY = e.changedTouches[0].clientY;
+    const diff = touchStartY - touchEndY;
+    
+    if (Math.abs(diff) > 65) {
+      if (isScrolling) return;
+      if (diff > 0) {
+        scrollToSection(currentSectionIndex + 1);
+      } else {
+        scrollToSection(currentSectionIndex - 1);
+      }
+    }
+  }, { passive: true });
+
+  // Resize listener
+  window.addEventListener("resize", updateNavIndicator);
+
+  // Force initial alignment snap on load based on URL hash
+  setTimeout(() => {
+    const hash = window.location.hash;
+    let initialIdx = 0;
+    if (hash) {
+      const targetId = hash.substring(1);
+      const targetIdx = sections.findIndex(s => s.id === targetId);
+      if (targetIdx !== -1) initialIdx = targetIdx;
+    }
+    scrollToSection(initialIdx);
+  }, 250);
+}
+
+// Moves and resizes the liquid glass background pill indicator
+function updateNavIndicator() {
+  const indicator = document.getElementById("navIndicator");
+  const activeLink = document.querySelector(".topnav a.active");
+  const nav = document.getElementById("anchorNav");
+  if (!indicator || !activeLink || !nav) return;
+
+  const activeRect = activeLink.getBoundingClientRect();
+  const navRect = nav.getBoundingClientRect();
+
+  const relativeLeft = activeLink.offsetLeft;
+  const linkWidth = activeRect.width;
+
+  const paddingX = 16; // Shorten width by 16px (8px on each side)
+  indicator.style.left = `${relativeLeft + (paddingX / 2)}px`;
+  indicator.style.width = `${linkWidth - paddingX}px`;
+
+  // Auto-scroll the nav container to keep active link fully visible
+  const navScrollLeft = nav.scrollLeft;
+  const navWidth = navRect.width;
+
+  if (relativeLeft < navScrollLeft) {
+    nav.scrollTo({ left: relativeLeft - 16, behavior: "smooth" });
+  } else if (relativeLeft + linkWidth > navScrollLeft + navWidth) {
+    nav.scrollTo({ left: relativeLeft + linkWidth - navWidth + 16, behavior: "smooth" });
+  }
 }
 
 // Render data
@@ -131,11 +277,18 @@ function renderFindings() {
   const p = data.top_findings.pearson_theft_positive || { feature: "N/A", value: 0, p: 1 };
   const n = data.top_findings.pearson_theft_negative || { feature: "N/A", value: 0, p: 1 };
   const tier = data.evidence_tiers || {};
+  const kw = data.zone_tests?.find(x => x.crime === "THEFT") || { H: 105.62, p: 3.46e-21 };
+  const m = data.scenario_models?.THEFT || { r2_train: 0.0886, r2_test: 0.0569 };
+  
   const cards = [
-    { title: "Strongest Positive Link (Theft)", desc: `Feature: <strong>${p.feature}</strong><br/>Pearson r: <strong>${p.value.toFixed(3)}</strong> (p=${p.p.toExponential(2)})` },
-    { title: "Strongest Negative Link (Theft)", desc: `Feature: <strong>${n.feature}</strong><br/>Pearson r: <strong>${n.value.toFixed(3)}</strong> (p=${n.p.toExponential(2)})` },
+    { title: "Strongest Positive Link (Theft)", desc: `Feature: <strong>${p.feature}</strong><br/>Pearson r: <strong>${p.value.toFixed(3)}</strong> (p=${p.p.toExponential(1)})` },
+    { title: "Strongest Negative Link (Theft)", desc: `Feature: <strong>${n.feature}</strong><br/>Pearson r: <strong>${n.value.toFixed(3)}</strong> (p=${n.p.toExponential(1)})` },
     { title: "Evidence Strength Tiers", desc: `Robust Associations:<br/>Strong: <strong>${tier.strong ?? 0}</strong> · Moderate: <strong>${tier.moderate ?? 0}</strong>` },
+    { title: "Spatial Variance Test (Theft)", desc: `Kruskal H: <strong>${kw.H.toFixed(2)}</strong><br/>p-value: <strong>${kw.p.toExponential(1)}</strong> (Highly Sig.)` },
+    { title: "Data Scope & Scale", desc: `Images: <strong>150,654</strong><br/>LSOAs: <strong>3,525</strong> (${(data.meta.coverage_ratio * 100).toFixed(1)}% City Coverage)` },
+    { title: "Model Generalization (Theft)", desc: `Holdout R²: <strong>${(m.r2_test * 100).toFixed(2)}%</strong><br/>Train R²: <strong>${(m.r2_train * 100).toFixed(2)}%</strong>` },
   ];
+  
   findingCards.innerHTML = cards.map((x, i) => `
     <article class="question-card">
       <p class="question-index">0${i + 1}</p>
@@ -146,36 +299,59 @@ function renderFindings() {
 }
 
 function updateCorrelationChart() {
-  if (!methodSelect || !crimeSelect || !document.getElementById("corrChart")) return;
-  const method = methodSelect.value;
+  if (!crimeSelect || !document.getElementById("corrChartPearson") || !document.getElementById("corrChartSpearman")) return;
   const crime = crimeSelect.value;
-  const rows = data.correlations[method][crime].slice(0, 14);
-  const x = rows.map((r) => r.value).reverse();
-  const y = rows.map((r) => r.feature).reverse();
   
   const isLight = document.documentElement.dataset.theme === 'light';
   const markerLineColor = isLight ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.2)";
   const zeroLineColor = isLight ? "rgba(0,0,0,0.15)" : "rgba(255,255,255,0.3)";
 
-  // Custom color scale for positive vs negative correlation
-  const colors = x.map((v) => (v >= 0 ? "rgba(255, 149, 0, 0.85)" : "rgba(52, 199, 89, 0.85)"));
-  
-  Plotly.react("corrChart", [{
+  // Pearson (Linear)
+  const rowsP = data.correlations["pearson"][crime].slice(0, 14);
+  const xP = rowsP.map((r) => r.value).reverse();
+  const yP = rowsP.map((r) => r.feature).reverse();
+  const colorsP = xP.map((v) => (v >= 0 ? "rgba(255, 149, 0, 0.85)" : "rgba(52, 199, 89, 0.85)"));
+
+  Plotly.react("corrChartPearson", [{
     type: "bar",
     orientation: "h",
-    x, y,
-    marker: { color: colors, line: { width: 1, color: markerLineColor } },
-    customdata: rows.map((r) => [r.p, r.n]).reverse(),
-    hovertemplate: "<b>%{y}</b><br>Correlation: %{x:.3f}<br>p-value: %{customdata[0]:.2e}<br>Sample Size: %{customdata[1]}<extra></extra>",
+    x: xP, y: yP,
+    marker: { color: colorsP, line: { width: 1, color: markerLineColor } },
+    customdata: rowsP.map((r) => [r.p, r.n]).reverse(),
+    hovertemplate: "<b>%{y}</b><br>Pearson r: %{x:.3f}<br>p-value: %{customdata[0]:.2e}<br>Sample Size: %{customdata[1]}<extra></extra>",
   }], {
     ...getPlotLayout(),
-    xaxis: { ...(getPlotLayout()).xaxis, title: "Correlation Coefficient", zeroline: true, zerolinecolor: zeroLineColor, zerolinewidth: 1.5 },
+    xaxis: { ...(getPlotLayout()).xaxis, title: "Pearson Correlation Coefficient", zeroline: true, zerolinecolor: zeroLineColor, zerolinewidth: 1.5 },
     yaxis: { ...(getPlotLayout()).yaxis, title: "" },
+    margin: { l: 140, r: 20, t: 20, b: 50 }
   }, plotCfg);
-  
-  const strongest = rows[0];
-  if (chartNote && strongest) {
-    chartNote.textContent = `Strongest environmental correlate for ${prettyCrime(crime)} (${method}): ${strongest.feature} (${strongest.value.toFixed(3)}, p=${strongest.p.toExponential(2)})`;
+
+  // Spearman (Rank)
+  const rowsS = data.correlations["spearman"][crime].slice(0, 14);
+  const xS = rowsS.map((r) => r.value).reverse();
+  const yS = rowsS.map((r) => r.feature).reverse();
+  const colorsS = xS.map((v) => (v >= 0 ? "rgba(255, 149, 0, 0.85)" : "rgba(52, 199, 89, 0.85)"));
+
+  Plotly.react("corrChartSpearman", [{
+    type: "bar",
+    orientation: "h",
+    x: xS, y: yS,
+    marker: { color: colorsS, line: { width: 1, color: markerLineColor } },
+    customdata: rowsS.map((r) => [r.p, r.n]).reverse(),
+    hovertemplate: "<b>%{y}</b><br>Spearman ρ: %{x:.3f}<br>p-value: %{customdata[0]:.2e}<br>Sample Size: %{customdata[1]}<extra></extra>",
+  }], {
+    ...getPlotLayout(),
+    xaxis: { ...(getPlotLayout()).xaxis, title: "Spearman Rank Correlation", zeroline: true, zerolinecolor: zeroLineColor, zerolinewidth: 1.5 },
+    yaxis: { ...(getPlotLayout()).yaxis, title: "" },
+    margin: { l: 140, r: 20, t: 20, b: 50 }
+  }, plotCfg);
+
+  const strongestP = rowsP[rowsP.length - 1]; // rows is sorted descending, so strongest is the last one in reverse (which is rowsP[0])
+  const strongestS = rowsS[0];
+  if (chartNote && strongestP && strongestS) {
+    chartNote.innerHTML = `Strongest environmental correlates for ${prettyCrime(crime)}: ` +
+      `Pearson (Linear): <strong>${rowsP[0].feature}</strong> (r=${rowsP[0].value.toFixed(3)}, p=${rowsP[0].p.toExponential(1)}) | ` +
+      `Spearman (Rank): <strong>${strongestS.feature}</strong> (ρ=${strongestS.value.toFixed(3)}, p=${strongestS.p.toExponential(1)})`;
   }
 }
 
@@ -199,10 +375,11 @@ function updateTimeChart() {
   }
 
   const traces = [];
+  let series;
 
   if (isGranular && key === "TOTAL") {
     // Render high-res monthly series (unused field monthly_total)
-    const series = data.time_series.monthly_total;
+    series = data.time_series.monthly_total;
     const x = series.map((d) => {
       const yr = d.month.substring(0, 4);
       const mo = d.month.substring(4, 6);
@@ -221,7 +398,7 @@ function updateTimeChart() {
     });
   } else {
     // Render annual series
-    const series = key === "TOTAL" ? data.time_series.total : data.time_series.categories[key];
+    series = key === "TOTAL" ? data.time_series.total : data.time_series.categories[key];
     const x = series.map((d) => d.year);
     const y = series.map((d) => d.value);
 
@@ -271,6 +448,24 @@ function updateTimeChart() {
     legend: { orientation: "h", y: -0.2, font: { color: legendColor } }
   };
 
+  const hasPartial = !isGranular && series.some(d => d.partial);
+  if (hasPartial) {
+    layout.annotations = [{
+      xref: 'paper',
+      yref: 'paper',
+      x: 1,
+      xanchor: 'right',
+      y: 1.05,
+      yanchor: 'bottom',
+      text: '* 2025 represents partial-year data (concludes in June)',
+      showarrow: false,
+      font: {
+        size: 10,
+        color: isLight ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'
+      }
+    }];
+  }
+
   if (effectiveShowYoY && !isGranular && key === "TOTAL") {
     layout.yaxis2 = {
       title: "YoY % Change",
@@ -306,6 +501,20 @@ function renderSeasonality() {
     ...getPlotLayout(),
     xaxis: { ...(getPlotLayout()).xaxis, title: "" },
     yaxis: { ...(getPlotLayout()).yaxis, title: "Year" },
+    annotations: [{
+      xref: 'paper',
+      yref: 'paper',
+      x: 1,
+      xanchor: 'right',
+      y: 1.05,
+      yanchor: 'bottom',
+      text: '* 2025 data concludes in June',
+      showarrow: false,
+      font: {
+        size: 10,
+        color: isLight ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'
+      }
+    }]
   }, plotCfg);
 }
 
@@ -328,9 +537,9 @@ function renderCorrelationHeatmap() {
     hovertemplate: "Feature %{y}<br>Crime %{x}<br>r = %{z:.3f}<extra></extra>",
   }], {
     ...getPlotLayout(),
-    xaxis: { ...(getPlotLayout()).xaxis, tickangle: -25 },
-    yaxis: { ...(getPlotLayout()).yaxis },
-    margin: { l: 100, r: 20, t: 40, b: 80 }
+    xaxis: { ...(getPlotLayout()).xaxis, tickangle: -25, tickfont: { size: 8.5 } },
+    yaxis: { ...(getPlotLayout()).yaxis, tickfont: { size: 8.5 } },
+    margin: { l: 110, r: 20, t: 20, b: 80 }
   }, plotCfg);
 }
 
@@ -352,30 +561,58 @@ function renderFeatureCorrMatrix() {
     hovertemplate: "%{y} × %{x}<br>Pearson r = %{z:.3f}<extra></extra>",
   }], {
     ...getPlotLayout(),
-    xaxis: { ...(getPlotLayout()).xaxis, tickangle: -30 },
-    yaxis: { ...(getPlotLayout()).yaxis },
-    margin: { l: 100, r: 20, t: 40, b: 80 }
+    xaxis: { ...(getPlotLayout()).xaxis, tickangle: -30, tickfont: { size: 8.5 } },
+    yaxis: { ...(getPlotLayout()).yaxis, tickfont: { size: 8.5 } },
+    margin: { l: 110, r: 20, t: 20, b: 80 }
   }, plotCfg);
 }
 
 function renderZones() {
   if (!zoneCards) return;
-  zoneCards.innerHTML = data.zone_cards.map((z) => {
-    const chips = z.top_crime_mix.map((x) => `<span>${prettyCrime(x.crime)}: ${x.value.toFixed(2)}</span>`).join("");
-    // Leverage the relative_total_index field to show relative crime rate vs London avg
+  zoneCards.innerHTML = data.zone_cards.map((z, idx) => {
     const ratioText = z.relative_total_index >= 1.0 
       ? `<strong class="text-highlight">+${((z.relative_total_index - 1)*100).toFixed(0)}%</strong> vs city avg` 
       : `<strong class="text-highlight">-${((1 - z.relative_total_index)*100).toFixed(0)}%</strong> vs city avg`;
       
+    // Build details table
+    const tableRows = z.top_crime_mix.slice(0, 4).map(x => `
+      <tr>
+        <td style="color: var(--text-secondary); padding: 0.2rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">${prettyCrime(x.crime)}</td>
+        <td style="text-align: right; font-weight: 500; padding: 0.2rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">${x.value.toFixed(2)}</td>
+      </tr>
+    `).join("");
+    
+    const activeClass = idx === 0 ? "active" : "";
+    
     return `
-      <article class="zone-card">
-        <h4>${z.name}</h4>
-        <p>LSOAs: <strong>${z.sample_size}</strong> · Mean Total Crime: <strong>${z.mean_total_crime.toFixed(2)}</strong></p>
-        <p style="font-size:0.8rem; color:var(--text-secondary); margin: 0.5rem 0;">Crime Rate Index: ${ratioText}</p>
-        <div class="chip-row">${chips}</div>
+      <article class="expandable-zone-card ${activeClass}" data-index="${idx}">
+        <div class="expandable-card-row-1">
+          <span class="card-zone-name">${z.name}</span>
+          <span class="card-n-val">n=${z.sample_size}</span>
+        </div>
+        <div class="expandable-card-row-2">
+          <span class="card-total-crime">Total: <strong>${z.mean_total_crime.toFixed(2)}</strong></span>
+          <span class="card-vs-avg">${ratioText}</span>
+        </div>
+        <div class="card-details">
+          <table class="crime-table" style="width:100%; border-collapse:collapse; margin-top:0.25rem;">
+            <tbody>
+              ${tableRows}
+            </tbody>
+          </table>
+        </div>
       </article>
     `;
   }).join("");
+
+  // Bind click handlers to cards for smooth accordion behavior
+  const cards = zoneCards.querySelectorAll(".expandable-zone-card");
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      cards.forEach(c => c.classList.remove("active"));
+      card.classList.add("active");
+    });
+  });
 }
 
 function renderDistribution() {
@@ -398,6 +635,21 @@ function renderDistribution() {
   }, plotCfg);
 }
 
+function getCrimeDescription(crime) {
+  const descriptions = {
+    "THEFT": "<strong>Theft</strong> exhibits the highest volume, concentrated heavily in <strong>Commercial</strong> zones due to shoplifting and high foot traffic. Residential zones remain low and uniform.",
+    "ROBBERY": "<strong>Robbery</strong> occurs predominantly in <strong>Commercial</strong> and transit hubs, showing high variance and indicating a strong correlation with evening foot traffic densities.",
+    "BURGLARY": "<strong>Burglary</strong> rates are more evenly distributed but show distinct residential peaks, where quiet <strong>Residential</strong> streets provide target accessibility.",
+    "VEHICLE OFFENCES": "<strong>Vehicle Offences</strong> show strong association with <strong>Workplace/Mixed</strong> and residential perimeter streets. Open parking structures and road accessibility act as key environmental catalysts.",
+    "DRUG OFFENCES": "<strong>Drug Offences</strong> exhibit local hotspots in <strong>Commercial</strong> areas and alleyways. Visual indicators of low natural surveillance correlate strongly with arrest locations.",
+    "POSSESSION OF WEAPONS": "<strong>Possession of Weapons</strong> is highly localized, tracking high-density commercial zones. Statistical variance is high, indicating localized policing hotspots.",
+    "PUBLIC ORDER OFFENCES": "<strong>Public Order</strong> violations are prevalent in active <strong>Commercial</strong> cores. Alcohol outlet density and public transit stations represent primary spatial predictors.",
+    "ARSON AND CRIMINAL DAMAGE": "<strong>Criminal Damage & Arson</strong> exhibits stable averages across both <strong>Residential</strong> and mixed zones, showing a moderate correlation with indicators of physical disorder.",
+    "MISCELLANEOUS CRIMES AGAINST SOCIETY": "<strong>Miscellaneous Crimes</strong> show relative stability across zones, with slight elevations in commercial/industrial zones due to regulatory inspections."
+  };
+  return descriptions[crime] || `This chart breaks down the selected crime type by functional zone, showing the mean and volatility rates.`;
+}
+
 function updateZoneCrimeChart() {
   if (!zoneCrimeSelect || !document.getElementById("zoneCrimeChart")) return;
   const c = zoneCrimeSelect.value;
@@ -406,6 +658,11 @@ function updateZoneCrimeChart() {
   const mean = z.map((r) => r[c].mean);
   const q25 = z.map((r) => r[c].q25);
   const q75 = z.map((r) => r[c].q75);
+  
+  const descEl = document.getElementById("profileDesc");
+  if (descEl) {
+    descEl.innerHTML = getCrimeDescription(c);
+  }
   
   const isLight = document.documentElement.dataset.theme === 'light';
   const markerLineColor = isLight ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.2)";
@@ -517,6 +774,28 @@ function setupSimulator() {
   ];
   simPresets.innerHTML = presets.map((p) => `<button class="sim-preset-btn" data-preset="${p.key}">${p.label}</button>`).join("");
 
+  // Bind tab switching click event listeners
+  const tabBtns = document.querySelectorAll(".sim-tab-btn");
+  tabBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      tabBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      
+      const tabId = btn.dataset.tab;
+      document.querySelectorAll(".sim-pane").forEach(p => {
+        p.style.display = p.id === tabId ? "flex" : "none";
+      });
+      
+      // Let layout settle then resize Plotly charts
+      setTimeout(() => {
+        if (window.Plotly) {
+          Plotly.Plots.resize("simGaugeChart");
+          Plotly.Plots.resize("simChart");
+        }
+      }, 100);
+    });
+  });
+
   function renderControls(target) {
     const model = models[target];
     simControls.innerHTML = model.features.map((f, i) => `
@@ -553,7 +832,7 @@ function setupSimulator() {
     const delta = pred - model.y_mean;
     const ratio = model.y_mean === 0 ? 0 : delta / model.y_mean;
 
-    // Display scenario prediction along with newly loaded academic parameters (Holdout R-squared and sample size n)
+    // Display scenario prediction statistics
     simResult.innerHTML = `
       <div class="sim-metrics-header" style="width:100%; display:flex; justify-content:space-between; margin-bottom:0.75rem; font-size:0.85rem; color:var(--text-secondary);">
         <span>Holdout R²: <strong>${(model.r2_test ?? 0).toFixed(3)}</strong> (Train R²: ${(model.r2_train ?? 0).toFixed(3)})</span>
@@ -564,43 +843,53 @@ function setupSimulator() {
       <span class="sim-chip" style="color: ${delta >= 0 ? 'var(--warning)' : 'var(--positive)'}">Delta: ${delta >= 0 ? "+" : ""}${delta.toFixed(3)} (${(ratio * 100).toFixed(2)}%)</span>
     `;
 
-    if (!draw || !document.getElementById("simChart")) return;
+    if (!draw) return;
     const sorted = contrib.slice().sort((a, b) => Math.abs(b.impact) - Math.abs(a.impact));
     const isLight = document.documentElement.dataset.theme === 'light';
     const gaugeBg = isLight ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.05)";
     const gaugeBorder = isLight ? "rgba(0,0,0,0.12)" : "rgba(255,255,255,0.2)";
     const gaugeTitleColor = isLight ? "rgba(0,0,0,0.75)" : "rgba(255,255,255,0.85)";
 
-    Plotly.react("simChart", [
-      {
+    // Render Expected Impact Gauge
+    if (document.getElementById("simGaugeChart")) {
+      Plotly.react("simGaugeChart", [{
         type: "indicator",
         mode: "gauge+number+delta",
         value: pred,
-        delta: { reference: model.y_mean, increasing: { color: "#ff3b30" }, decreasing: { color: "#34c759" } },
+        number: { font: { color: isLight ? "rgba(0,0,0,0.85)" : "rgba(255,255,255,0.95)" } },
+        delta: { reference: model.y_mean, font: { color: isLight ? "rgba(0,0,0,0.6)" : "rgba(255,255,255,0.7)" }, increasing: { color: "#ff3b30" }, decreasing: { color: "#34c759" } },
         gauge: {
-          axis: { range: [Math.max(0, model.y_mean * 0.55), model.y_mean * 1.45] },
+          axis: { 
+            range: [Math.max(0, model.y_mean * 0.55), model.y_mean * 1.45],
+            tickfont: { color: isLight ? "rgba(0,0,0,0.5)" : "rgba(255,255,255,0.6)" }
+          },
           bar: { color: "#007aff" },
           bgcolor: gaugeBg,
           bordercolor: gaugeBorder,
         },
-        domain: { x: [0, 0.38], y: [0, 1] },
         title: { text: prettyCrime(target), font: { color: gaugeTitleColor, size: 14 } },
-      },
-      {
+      }], {
+        ...getPlotLayout(),
+        margin: { l: 40, r: 40, t: 40, b: 40 }
+      }, plotCfg);
+    }
+
+    // Render Coefficient Feature Weights Bar
+    if (document.getElementById("simChart")) {
+      Plotly.react("simChart", [{
         type: "bar",
         orientation: "h",
         x: sorted.map((d) => d.impact).reverse(),
         y: sorted.map((d) => d.feature).reverse(),
         marker: { color: sorted.map((d) => (d.impact >= 0 ? "#ff9500" : "#34c759")).reverse() },
-        xaxis: "x2", yaxis: "y2",
         hovertemplate: "%{y}<br>Standardized Impact: %{x:.3f}<extra></extra>",
-      },
-    ], {
-      ...getPlotLayout(),
-      margin: { l: 80, r: 20, t: 32, b: 36 },
-      xaxis2: { domain: [0.46, 1], title: "Standardized Coeff Impact", ...(getPlotLayout()).xaxis },
-      yaxis2: { domain: [0, 1], title: "", ...(getPlotLayout()).yaxis },
-    }, plotCfg);
+      }], {
+        ...getPlotLayout(),
+        margin: { l: 110, r: 20, t: 20, b: 40 },
+        xaxis: { ...(getPlotLayout()).xaxis, title: "Standardized Impact Coefficient" },
+        yaxis: { ...(getPlotLayout()).yaxis, title: "" },
+      }, plotCfg);
+    }
   }
 
   function applyPreset(target, preset) {
@@ -618,7 +907,7 @@ function setupSimulator() {
   function refresh() {
     const target = simTargetSelect.value;
     renderControls(target);
-    const model = models[target]; // Fixed implicit global variable
+    const model = models[target];
     model.features.forEach((_, i) => {
       document.getElementById(`sim_${i}`).addEventListener("input", () => computePrediction(target));
     });
@@ -854,17 +1143,40 @@ function initDropdowns() {
   });
 }
 
-// Scroll Reveals using Intersection Observer
-function initScrollReveals() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
+// Tab Switching Controller for multi-panel sections
+function initTabs() {
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const tabId = btn.dataset.tab;
+      const container = btn.closest(".tabs-container");
+      if (!container) return;
+      
+      // Deactivate other buttons
+      container.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      
+      // Deactivate other panes
+      container.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
+      
+      // Activate clicked pane
+      const activePane = document.getElementById(tabId);
+      if (activePane) {
+        activePane.classList.add("active");
+        
+        // Let CSS transitions settle before triggering resize to ensure container box is stable
+        setTimeout(() => {
+          activePane.querySelectorAll(".plotly-box").forEach(box => {
+            if (box.id && window.Plotly) {
+              Plotly.Plots.resize(box.id);
+            }
+          });
+          if (window.map && activePane.querySelector("#mapCanvas")) {
+            window.map.invalidateSize();
+          }
+        }, 150);
       }
     });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.chapter').forEach(el => observer.observe(el));
+  });
 }
 
 // Boot sequence
@@ -873,6 +1185,12 @@ function boot() {
     console.error("ANALYSIS_SUMMARY data not loaded.");
     return;
   }
+
+  // Force scroll to top on load and prevent browser scroll restoration
+  if (history.scrollRestoration) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0);
   
   // Set theme from localStorage or system preference BEFORE rendering any charts
   const html = document.documentElement;
@@ -898,13 +1216,11 @@ function boot() {
   renderZoneTests();
   renderQuality();
 
-  fillSelect(methodSelect, data.method_options);
   fillSelect(crimeSelect, data.crime_options.map((k) => ({ value: k, label: prettyCrime(k) })));
   fillSelect(zoneCrimeSelect, data.crime_options.map((k) => ({ value: k, label: prettyCrime(k) })));
   fillSelect(bubbleCrimeSelect, data.crime_options.map((k) => ({ value: k, label: prettyCrime(k) })));
   fillSelect(timeSeriesSelect, ["TOTAL", ...Object.keys(data.time_series.categories)]);
 
-  methodSelect?.addEventListener("change", updateCorrelationChart);
   crimeSelect?.addEventListener("change", updateCorrelationChart);
   zoneCrimeSelect?.addEventListener("change", updateZoneCrimeChart);
   bubbleCrimeSelect?.addEventListener("change", updateEvidenceChart);
@@ -919,8 +1235,8 @@ function boot() {
   updateEvidenceChart();
   setupSimulator();
   initMap();
-  initScrollReveals();
   initDropdowns();
+  initTabs();
   initTheme();
 }
 

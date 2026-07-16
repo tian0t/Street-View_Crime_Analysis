@@ -35,14 +35,11 @@
     <div class="bg-noise" aria-hidden="true"></div>
 
     <header class="topbar">
-      <div class="topbar__inner">
+      <!-- Row 1: Logo & Mode Toggle -->
+      <div class="topbar__row topbar__row--main">
         <div class="logo">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-          </svg>
           Urban Spatial Analytics
         </div>
-        <nav id="anchorNav" class="topnav" role="menu" aria-label="Anchor Navigation"></nav>
         <!-- Theme Toggle -->
         <button
           id="themeToggle"
@@ -68,6 +65,10 @@
           </svg>
         </button>
       </div>
+      <!-- Row 2: Features Navigation Menu -->
+      <div class="topbar__row topbar__row--nav">
+        <nav id="anchorNav" class="topnav" role="menu" aria-label="Anchor Navigation"></nav>
+      </div>
     </header>
 
     <main class="showcase" role="main" aria-label="Dashboard Content">
@@ -83,38 +84,40 @@
         </div>
       </section>
 
-      <!-- 2. Methodology & Pipeline -->
+      <!-- 2. Methodology & Data Pipeline -->
       <section id="methodology" class="chapter" aria-labelledby="methodology-title">
         <div class="chapter__head">
-          <h2 id="methodology-title">Methodology & Pipeline</h2>
-          <p>The end-to-end data processing and spatial analysis framework.</p>
+          <h2 id="methodology-title">Methodology & Data Pipeline</h2>
+          <p>The end-to-end framework translating raw imagery into statistical insights.</p>
         </div>
-        <div class="pipeline-grid">
-          <article class="pipeline-card">
-            <p class="step-number">Step 01</p>
-            <h4>Data Extraction & Preprocessing</h4>
-            <p>Generated a regular <strong class="text-highlight">50m x 50m</strong> grid across Greater London (<strong class="text-highlight">629,375</strong> centers). Fetched <strong class="text-highlight">150,654</strong> optimal street-level images via Mapillary API.</p>
-          </article>
-          <article class="pipeline-card">
-            <p class="step-number">Step 02</p>
-            <h4>Spatial Joining & LSOA Alignment</h4>
-            <p>Mapped coordinates to London Lower Layer Super Output Areas (LSOAs), matching <strong class="text-highlight">150,182</strong> visual samples across boundaries with GIS centroids.</p>
-          </article>
-          <article class="pipeline-card">
-            <p class="step-number">Step 03</p>
-            <h4>Feature Standardization</h4>
-            <p>Extracted <strong class="text-highlight">19</strong> environmental features using SegFormer-B0 (Cityscapes) and probabilistic urban function classes using UrbanCLIP (ViT-B-32).</p>
-          </article>
-          <article class="pipeline-card">
-            <p class="step-number">Step 04</p>
-            <h4>Statistical Inference</h4>
-            <p>Aggregated features to LSOA level (<strong class="text-highlight">70.7%</strong> data coverage) and executed Pearson/Spearman correlation and Kruskal-Wallis H tests.</p>
-          </article>
-          <article class="pipeline-card">
-            <p class="step-number">Step 05</p>
-            <h4>Crime Data Integration</h4>
-            <p>Merged street features with Metropolitan Police Service open records (<strong class="text-highlight">Jan 2019 – Jun 2025</strong>), covering <strong class="text-highlight">10</strong> major crime categories across Greater London LSOAs.</p>
-          </article>
+        <div class="glass-panel">
+          <div class="pipeline-grid">
+            <article class="pipeline-card">
+              <p class="step-number">Step 01</p>
+              <h4>Data Extraction & Preprocessing</h4>
+              <p>Generated a regular <strong class="text-highlight">50m x 50m</strong> grid across Greater London (<strong class="text-highlight">629,375</strong> centers). Fetched <strong class="text-highlight">150,654</strong> optimal street-level images via Mapillary API.</p>
+            </article>
+            <article class="pipeline-card">
+              <p class="step-number">Step 02</p>
+              <h4>Spatial Joining & LSOA Alignment</h4>
+              <p>Mapped coordinates to London Lower Layer Super Output Areas (LSOAs), matching <strong class="text-highlight">150,182</strong> visual samples across boundaries with GIS centroids.</p>
+            </article>
+            <article class="pipeline-card">
+              <p class="step-number">Step 03</p>
+              <h4>Feature Standardization</h4>
+              <p>Extracted <strong class="text-highlight">19</strong> environmental features using SegFormer-B0 (Cityscapes) and probabilistic urban function classes using UrbanCLIP (ViT-B-32).</p>
+            </article>
+            <article class="pipeline-card">
+              <p class="step-number">Step 04</p>
+              <h4>Statistical Inference</h4>
+              <p>Aggregated features to LSOA level (<strong class="text-highlight">70.7%</strong> data coverage) and executed Pearson/Spearman correlation and Kruskal-Wallis H tests.</p>
+            </article>
+            <article class="pipeline-card">
+              <p class="step-number">Step 05</p>
+              <h4>Crime Data Integration</h4>
+              <p>Merged street features with Metropolitan Police Service open records (<strong class="text-highlight">Jan 2019 – Jun 2025</strong>), covering <strong class="text-highlight">10</strong> major crime categories across Greater London LSOAs.</p>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -155,47 +158,41 @@
         </div>
       </section>
 
-      <!-- 4. Functional Zones Comparison -->
+      <!-- 4. Functional Zone Tests -->
       <section id="zones" class="chapter" aria-labelledby="zones-title">
         <div class="chapter__head">
           <h2 id="zones-title">Functional Zone Tests</h2>
           <p>Analyzing crime distributions and statistical significance across urban zones.</p>
         </div>
-        <div id="zoneCards" class="cards-grid" style="margin-bottom: 1.5rem;"></div>
-        <div class="grid-2">
-          <div class="glass-panel">
-            <div class="panel-header">
-              <div class="controls">
-                <div class="control-group">
-                  <label>Zone Distribution</label>
+        <div class="glass-panel">
+          <div class="zone-tests-layout-vertical">
+            <!-- Left: Expandable Metrics cards -->
+            <div id="zoneCards" class="zone-metrics-column"></div>
+            
+            <!-- Right: Stacked charts with unified explanation panel -->
+            <div class="zone-charts-stack-column">
+              <div class="panel-header">
+                <div class="controls">
+                  <div class="control-group">
+                    <label>Zone Distribution & Statistical Significance</label>
+                  </div>
                 </div>
+                <button class="info-btn" data-target="info-zoneDist" aria-label="Show zone distribution and significance analysis">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                </button>
               </div>
-              <button class="info-btn" data-target="info-zoneDist" aria-label="Show zone distribution analysis">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-              </button>
-            </div>
-            <div class="t-dropdown" id="info-zoneDist" data-origin="top-right">
-              <h4>Sample Distribution</h4>
-              <p>A simple bar chart displaying the frequency of each functional zone within the dataset. Uneven distributions highlight the necessity of non-parametric tests like Kruskal-Wallis.</p>
-            </div>
-            <div id="distChart" class="plotly-box"></div>
-          </div>
-          <div class="glass-panel">
-            <div class="panel-header">
-              <div class="controls">
-                <div class="control-group">
-                  <label>Kruskal-Wallis Significance</label>
-                </div>
+              <div class="t-dropdown" id="info-zoneDist" data-origin="top-right">
+                <h4>Zone Distribution & Kruskal-Wallis Tests</h4>
+                <p>Top: Frequency of functional zones in the dataset. Uneven distributions highlight the necessity of non-parametric tests.<br/>Bottom: Kruskal-Wallis significance. Bars crossing the dotted lines indicate statistically significant variance in crime distribution across functional zones (p &lt; 0.05 or p &lt; 0.01).</p>
               </div>
-              <button class="info-btn" data-target="info-kwTest" aria-label="Show Kruskal-Wallis variance analysis">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-              </button>
+              
+              <div class="zone-chart-subpanel">
+                <div id="distChart" class="plotly-box"></div>
+              </div>
+              <div class="zone-chart-subpanel">
+                <div id="zoneTestChart" class="plotly-box"></div>
+              </div>
             </div>
-            <div class="t-dropdown" id="info-kwTest" data-origin="top-right">
-              <h4>Kruskal-Wallis Variance Analysis</h4>
-              <p>Plotted as -log10(p-value), this chart indicates whether crime distributions significantly differ across urban zones. Bars crossing the dotted thresholds indicate statistically significant variance (p < 0.05 or p < 0.01).</p>
-            </div>
-            <div id="zoneTestChart" class="plotly-box"></div>
           </div>
         </div>
       </section>
@@ -208,21 +205,34 @@
         </div>
         <div class="glass-panel">
           <div class="panel-header">
-            <div class="controls">
-              <div class="control-group">
-                <label for="zoneCrimeSelect">Crime Type</label>
-                <select id="zoneCrimeSelect" aria-label="Select Zone Crime Type"></select>
-              </div>
-            </div>
-            <button class="info-btn" data-target="info-zoneProfile" aria-label="Show zone profile analysis">
+            <div class="controls"><label>Crime Volatility Analysis</label></div>
+            <button class="info-btn" data-target="info-zoneProfile" aria-label="Show zone profile details">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
             </button>
           </div>
           <div class="t-dropdown" id="info-zoneProfile" data-origin="top-right">
-            <h4>Zone-Specific Crime Profiles</h4>
-            <p>This chart breaks down the selected crime type by functional zone. The bars represent the mean crime rate, while the error bars show the interquartile range (25th to 75th percentile), giving a robust view of volatility within each zone type.</p>
+            <h4>Crime Volatility Interpretation</h4>
+            <p>Functional environments exhibit highly distinct criminogenic profiles. Areas containing higher densities of commercial facilities show higher overall variance in property-related offenses, while residential clusters remain more uniform but with distinct outlier profiles.</p>
           </div>
-          <div id="zoneCrimeChart" class="plotly-box"></div>
+          
+          <div class="profile-layout-grid">
+            <!-- Left: Controls & description -->
+            <div class="profile-controls-column">
+              <div class="control-group">
+                <label for="zoneCrimeSelect">Crime Type</label>
+                <select id="zoneCrimeSelect" aria-label="Select Zone Crime Type"></select>
+              </div>
+              <div class="profile-info-box">
+                <h4>Zone-Specific Crime Profiles</h4>
+                <p id="profileDesc">This chart breaks down the selected crime type by functional zone. The bars represent the mean crime rate, while the error bars show the interquartile range (25th to 75th percentile), giving a robust view of volatility within each zone type.</p>
+              </div>
+            </div>
+            
+            <!-- Right: The chart -->
+            <div class="profile-chart-column">
+              <div id="zoneCrimeChart" class="plotly-box"></div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -232,37 +242,45 @@
           <h2 id="insights-title">Core Findings</h2>
           <p>Key data-driven highlights extracted from the current dataset.</p>
         </div>
-        <div id="findingCards" class="cards-grid"></div>
+        <div class="glass-panel">
+          <div id="findingCards" class="cards-grid"></div>
+        </div>
       </section>
 
       <!-- 7. Environmental Drivers -->
       <section id="explorer" class="chapter" aria-labelledby="explorer-title">
         <div class="chapter__head">
           <h2 id="explorer-title">Environmental Drivers vs Crime</h2>
-          <p>Interactive filtering by statistical method and crime category.</p>
+          <p>Side-by-side comparison of Pearson (linear) and Spearman (rank-based) correlations.</p>
         </div>
         <div class="glass-panel">
           <div class="panel-header">
             <div class="controls">
               <div class="control-group">
-                <label for="methodSelect">Statistical Method</label>
-                <select id="methodSelect" aria-label="Select Statistical Method"></select>
-              </div>
-              <div class="control-group">
                 <label for="crimeSelect">Crime Type</label>
                 <select id="crimeSelect" aria-label="Select Crime Type"></select>
               </div>
             </div>
-            <button class="info-btn" data-target="info-corrChart" aria-label="Show chart analysis">
+            <button class="info-btn" data-target="info-explorer" aria-label="Show correlation analysis details">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
             </button>
           </div>
-          <div class="t-dropdown" id="info-corrChart" data-origin="top-right">
-            <h4>Chart Analysis</h4>
-            <p>This chart reveals the strength and direction of relationships between street-level features and the selected crime type. Positive values indicate a potential risk factor, while negative values suggest a protective environmental element.</p>
+          <div class="t-dropdown" id="info-explorer" data-origin="top-right">
+            <h4>Pearson vs Spearman Comparison</h4>
+            <p>Left: Pearson r measures linear relationships. Highly sensitive to magnitude.<br/>Right: Spearman ρ measures monotonic relationships. More robust to outliers and skewed distributions. Comparing them reveals non-linear environmental thresholds.</p>
           </div>
-          <div id="corrChart" class="plotly-box"></div>
-          <p id="chartNote" class="chart-note"></p>
+          
+          <div class="grid-2" style="flex-grow: 1; min-height: 0; height: 100%; width: 100%; gap: 1.5rem;">
+            <div class="chart-wrapper-noborder">
+              <h4 style="margin: 0 0 0.5rem 0; font-size: 0.95rem; font-weight: 600; text-align: center;">Pearson (Linear Correlation)</h4>
+              <div id="corrChartPearson" class="plotly-box" style="flex-grow: 1;"></div>
+            </div>
+            <div class="chart-wrapper-noborder">
+              <h4 style="margin: 0 0 0.5rem 0; font-size: 0.95rem; font-weight: 600; text-align: center;">Spearman (Rank Correlation)</h4>
+              <div id="corrChartSpearman" class="plotly-box" style="flex-grow: 1;"></div>
+            </div>
+          </div>
+          <p id="chartNote" class="chart-note" style="text-align: center; margin-top: 0.5rem;"></p>
         </div>
       </section>
 
@@ -270,55 +288,47 @@
       <section id="timeline" class="chapter" aria-labelledby="timeline-title">
         <div class="chapter__head">
           <h2 id="timeline-title">Long-Horizon Trends and Shocks</h2>
-          <p>Annual trajectories and monthly seasonality profiles.</p>
+          <p>Annual trajectories (2019–2025) and monthly seasonality profiles (data concluding in June 2025).</p>
         </div>
-        <div class="grid-2">
-          <div class="glass-panel">
-            <div class="panel-header">
-              <div class="controls">
-                <div class="control-group">
-                  <label for="timeSeriesSelect">Category</label>
-                  <select id="timeSeriesSelect" aria-label="Select Time Series Category"></select>
-                </div>
-                <div class="control-group checkbox-group">
-                  <label class="inline-check">
-                    <input type="checkbox" id="timeResolutionToggle" aria-label="Show Granular Monthly Timeline" />
-                    Show Monthly
-                  </label>
-                </div>
-                <div class="control-group checkbox-group" id="yoyToggleLabel">
-                  <label class="inline-check">
-                    <input type="checkbox" id="timeYoYToggle" aria-label="Show Year-over-Year change" />
-                    YoY % Change
-                  </label>
-                </div>
+        <div class="glass-panel">
+          <div class="panel-header" style="margin-bottom: 0.75rem;">
+            <div class="controls">
+              <div class="control-group">
+                <label for="timeSeriesSelect">Category</label>
+                <select id="timeSeriesSelect" aria-label="Select Time Series Category"></select>
               </div>
-              <button class="info-btn" data-target="info-timeChart" aria-label="Show timeline analysis">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-              </button>
+              <div class="control-group checkbox-group">
+                <label class="inline-check">
+                  <input type="checkbox" id="timeResolutionToggle" aria-label="Show Granular Monthly Timeline" />
+                  Monthly
+                </label>
+              </div>
+              <div class="control-group checkbox-group" id="yoyToggleLabel">
+                <label class="inline-check">
+                  <input type="checkbox" id="timeYoYToggle" aria-label="Show Year-over-Year change" />
+                  YoY %
+                </label>
+              </div>
             </div>
-            <div class="t-dropdown" id="info-timeChart" data-origin="top-right">
-              <h4>Time Series Analysis</h4>
-              <p>Tracking the temporal evolution of crime counts. Significant dips often reflect external shocks (e.g., lockdown measures), while long-term slopes indicate underlying socio-economic or policy shifts.</p>
-            </div>
-            <div id="timeChart" class="plotly-box"></div>
+            <button class="info-btn" data-target="info-timeline-all" aria-label="Show trends analysis details">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+            </button>
           </div>
-          <div class="glass-panel">
-            <div class="panel-header">
-              <div class="controls">
-                <div class="control-group">
-                  <label>Seasonality Heatmap</label>
-                </div>
-              </div>
-              <button class="info-btn" data-target="info-seasonChart" aria-label="Show seasonality analysis">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-              </button>
+          <div class="t-dropdown" id="info-timeline-all" data-origin="top-right">
+            <h4>Long-Horizon Trends & Seasonality</h4>
+            <p>Left: Tracks historical evolution of crime. Significant dips often reflect external shocks (e.g., lockdown measures).<br/>Right: Isolates month-by-month variation over multiple years. Distinct vertical banding highlights recurring seasonal surges, often tied to weather patterns or holidays.</p>
+          </div>
+
+          <div class="grid-2" style="flex-grow: 1; min-height: 0; height: 100%; width: 100%; gap: 1.5rem;">
+            <!-- Left Chart -->
+            <div class="chart-wrapper-noborder">
+              <div id="timeChart" class="plotly-box"></div>
             </div>
-            <div class="t-dropdown" id="info-seasonChart" data-origin="top-right">
-              <h4>Seasonality Analysis</h4>
-              <p>This heatmap isolates the month-by-month variation over multiple years. Distinct vertical banding highlights recurring seasonal surges, often tied to weather patterns or holiday periods.</p>
+            
+            <!-- Right Chart -->
+            <div class="chart-wrapper-noborder">
+              <div id="seasonalityChart" class="plotly-box"></div>
             </div>
-            <div id="seasonalityChart" class="plotly-box"></div>
           </div>
         </div>
       </section>
@@ -329,40 +339,28 @@
           <h2 id="diagnostics-title">Structure Diagnostics</h2>
           <p>Global correlation heatmaps and feature collinearity matrices.</p>
         </div>
-        <div class="grid-2">
-          <div class="glass-panel">
-            <div class="panel-header">
-              <div class="controls">
-                <div class="control-group">
-                  <label>Cross-Correlation</label>
-                </div>
-              </div>
-              <button class="info-btn" data-target="info-crossCorr" aria-label="Show cross-correlation analysis">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-              </button>
-            </div>
-            <div class="t-dropdown" id="info-crossCorr" data-origin="top-right">
-              <h4>Cross-Correlation Matrix</h4>
-              <p>A high-density view mapping every street feature against every crime type. Dark red indicates strong positive correlation, while dark blue indicates strong negative correlation. This is vital for spotting generalized patterns across multiple variables.</p>
-            </div>
-            <div id="corrHeatmap" class="plotly-box"></div>
+        <div class="glass-panel">
+          <div class="panel-header" style="margin-bottom: 0.75rem;">
+            <div class="controls"><label>Diagnostics Heatmap & Collinearity Analysis</label></div>
+            <button class="info-btn" data-target="info-diagnostics-all" aria-label="Show diagnostics analysis details">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+            </button>
           </div>
-          <div class="glass-panel">
-            <div class="panel-header">
-              <div class="controls">
-                <div class="control-group">
-                  <label>Collinearity Matrix</label>
-                </div>
-              </div>
-              <button class="info-btn" data-target="info-collinear" aria-label="Show collinearity analysis">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-              </button>
+          <div class="t-dropdown" id="info-diagnostics-all" data-origin="top-right">
+            <h4>Diagnostics Heatmap & Feature Collinearity</h4>
+            <p>Left: Cross-correlation mapping of every street view feature against crime types. Red is positive, blue is negative.<br/>Right: Internal feature collinearity mapping redundant visual features, critical for variance inflation factor (VIF) screening.</p>
+          </div>
+
+          <div class="grid-2" style="flex-grow: 1; min-height: 0; height: 100%; width: 100%; gap: 1.5rem;">
+            <!-- Left Chart -->
+            <div class="chart-wrapper-noborder">
+              <div id="corrHeatmap" class="plotly-box"></div>
             </div>
-            <div class="t-dropdown" id="info-collinear" data-origin="top-right">
-              <h4>Feature Collinearity</h4>
-              <p>This matrix checks internal correlation between street features themselves. High collinearity (dark red) warns us that two features provide redundant information, which is critical to address before building predictive models.</p>
+            
+            <!-- Right Chart -->
+            <div class="chart-wrapper-noborder">
+              <div id="featureCorrChart" class="plotly-box"></div>
             </div>
-            <div id="featureCorrChart" class="plotly-box"></div>
           </div>
         </div>
       </section>
@@ -418,9 +416,32 @@
             <h4>Regression Modeling Simulator</h4>
             <p>This tool utilizes multi-variable linear regression coefficients to predict how modifying environmental features impacts crime rates. The baseline is the sample mean. Moving sliders recalculates the standardized expected outcome, demonstrating the relative leverage of each variable.</p>
           </div>
-          <div id="simResult" class="sim-result"></div>
-          <div id="simControls" class="sim-controls sim-controls--premium"></div>
-          <div id="simChart" class="plotly-box"></div>
+          <div class="sim-layout-grid">
+            <!-- Left Column: Visual results (Main Focus) -->
+            <div class="sim-layout-column sim-layout-column--visual">
+              <!-- Visual Tab selector -->
+              <div class="sim-visual-tabs" style="margin-bottom: 0.5rem; display: flex; gap: 0.5rem;">
+                <button class="sim-tab-btn active" data-tab="expected-impact">Expected Impact</button>
+                <button class="sim-tab-btn" data-tab="coefficient-weights">Feature Weights</button>
+              </div>
+              
+              <div class="sim-visual-panes" style="flex-grow: 1; position: relative; min-height: 0; height: 100%;">
+                <!-- Pane 1: Expected Impact (Gauge) -->
+                <div class="sim-pane active" id="expected-impact" style="height: 100%; display: flex; flex-direction: column;">
+                  <div id="simResult" class="sim-result" style="margin-bottom: 0.5rem;"></div>
+                  <div id="simGaugeChart" class="plotly-box" style="flex-grow: 1;"></div>
+                </div>
+                <!-- Pane 2: Coefficient Weights (Bar) -->
+                <div class="sim-pane" id="coefficient-weights" style="height: 100%; display: none;">
+                  <div id="simChart" class="plotly-box" style="height: 100%; width: 100%;"></div>
+                </div>
+              </div>
+            </div>
+            <!-- Right Column: Control sliders (Fixed) -->
+            <div class="sim-layout-column sim-layout-column--controls">
+              <div id="simControls" class="sim-controls sim-controls--premium"></div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -430,7 +451,9 @@
           <h2 id="quality-title">Quality Boundaries and Credibility</h2>
           <p>Critical limitations, biases, and robustness notes regarding the models.</p>
         </div>
-        <div id="qualityList" class="cards-stack"></div>
+        <div class="glass-panel">
+          <div id="qualityList" class="cards-stack"></div>
+        </div>
       </section>
     </main>
 
