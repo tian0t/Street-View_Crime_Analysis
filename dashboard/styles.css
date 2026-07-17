@@ -401,7 +401,8 @@ h1 {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  height: 100%;
+  min-height: 0;
+  height: auto;
 }
 
 /* Sub-panel (like a card inside a panel) */
@@ -928,10 +929,13 @@ input[type="range"]::-webkit-slider-thumb:active {
    Quality Boundaries & limitations styling
 ---------------------------------------------------- */
 .cards-stack {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columns across 2 rows for maximum vertical compactness */
-  gap: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  overflow-y: auto;
   flex-grow: 1;
 }
 
@@ -1095,11 +1099,13 @@ input[type="range"]::-webkit-slider-thumb:active {
   }
   
   .cards-stack {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
   }
   
   #findingCards.cards-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: repeat(3, 1fr) !important;
   }
 }
 
@@ -1128,6 +1134,9 @@ input[type="range"]::-webkit-slider-thumb:active {
   }
   .cards-grid {
     grid-template-columns: 1fr;
+  }
+  #findingCards.cards-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
   }
   .t-dropdown {
     width: calc(100vw - 2rem);
@@ -1381,7 +1390,7 @@ html[data-theme="light"] body {
 /* Functional Zones (Section 4) Layout - Vertical charts on the right */
 .zone-tests-layout-vertical {
   display: grid;
-  grid-template-columns: 0.85fr 1.15fr; /* 42.5% cards list on left, 57.5% charts stack on right */
+  grid-template-columns: 0.55fr 1.45fr; /* Narrower left column (27.5%), wider right column (72.5%) */
   gap: 1.5rem;
   flex-grow: 1;
   min-height: 0;
@@ -1400,7 +1409,6 @@ html[data-theme="light"] body {
 .zone-chart-subpanel {
   flex: 1;
   min-height: 0;
-  height: calc(50% - 0.35rem);
   background: transparent;
   border: none;
   box-shadow: none;
@@ -1474,22 +1482,22 @@ html[data-theme="light"] body {
 }
 
 .card-zone-name {
-  font-size: 0.85rem !important;
+  font-size: 1.05rem !important;
   font-weight: 600;
   color: var(--text-primary);
 }
 
 .card-n-val {
-  font-size: 0.68rem !important;
+  font-size: 0.82rem !important;
   color: var(--text-tertiary);
 }
 
 .card-total-crime {
-  font-size: 0.72rem;
+  font-size: 0.88rem;
 }
 
 .card-vs-avg {
-  font-size: 0.68rem;
+  font-size: 0.88rem;
   text-align: right;
 }
 
@@ -1501,14 +1509,14 @@ html[data-theme="light"] body {
 }
 
 .expandable-zone-card.active .card-details {
-  max-height: 125px;
+  max-height: 150px;
   opacity: 1;
   margin-top: 0.45rem;
 }
 
 .expandable-zone-card .crime-table {
   width: 100%;
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   border-collapse: collapse;
   margin-top: 0.15rem;
 }
@@ -1569,62 +1577,14 @@ html[data-theme="light"] body {
   flex-direction: column;
   height: 100%;
   min-height: 0;
-}
-
-/* Symmetrical 2x3 Grid for findings */
+}/* Findings layout: 6 columns horizontally */
 #findingCards.cards-grid {
-  grid-template-columns: repeat(3, 1fr) !important;
-  gap: 1.5rem;
+  grid-template-columns: repeat(6, 1fr) !important;
+  gap: 0.75rem;
   width: 100%;
 }
 
-/* Simulator Visual Tabs & compact slides */
-.sim-visual-tabs {
-  display: flex;
-  gap: 0.4rem;
-  margin-bottom: 0.4rem;
-  border-bottom: 1px solid var(--glass-border);
-  padding-bottom: 0.4rem;
-}
-
-.sim-tab-btn {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--glass-border);
-  border-radius: 8px;
-  color: var(--text-secondary);
-  padding: 0.25rem 0.65rem;
-  font-size: 0.76rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-smooth);
-}
-
-.sim-tab-btn:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--text-primary);
-}
-
-.sim-tab-btn.active {
-  background: var(--accent-color);
-  border-color: var(--accent-color);
-  color: white;
-}
-
-[data-theme="light"] .sim-tab-btn {
-  background: rgba(0, 0, 0, 0.02);
-  color: var(--text-secondary);
-}
-
-[data-theme="light"] .sim-tab-btn:hover {
-  background: rgba(0, 0, 0, 0.05);
-  color: var(--text-primary);
-}
-
-[data-theme="light"] .sim-tab-btn.active {
-  background: var(--accent-color);
-  border-color: var(--accent-color);
-  color: white;
-}
+/* Simulator layout overrides */
 
 .sim-card label {
   font-size: 0.72rem !important;
@@ -1641,18 +1601,17 @@ html[data-theme="light"] body {
 
 /* Quality layout size reductions & vertical distribution */
 .limit-item {
-  font-size: 0.72rem !important;
-  padding: 0.55rem 0.75rem !important;
-  gap: 0.25rem !important;
+  font-size: 0.95rem !important;
+  padding: 0.65rem 0.85rem !important;
+  gap: 0.35rem !important;
 }
 
 .limit-badge {
-  font-size: 0.62rem !important;
+  font-size: 0.82rem !important;
 }
 
 .limit-item p {
-  font-size: 0.72rem !important;
-  line-height: 1.35;
+  font-size: 0.95rem !important;
+  line-height: 1.45;
   margin: 0;
 }
-

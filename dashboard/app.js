@@ -119,6 +119,30 @@ function initNav() {
 
   const showcase = document.querySelector(".showcase");
 
+  function resizeChartsForSection(sectionId) {
+    if (sectionId === "map" && window.map) {
+      try { window.map.invalidateSize(); } catch(e) {}
+    }
+    if (!window.Plotly) return;
+    const chartIds = {
+      "zones": ["distChart", "zoneTestChart"],
+      "zone-crime": ["zoneCrimeChart"],
+      "explorer": ["corrChartPearson", "corrChartSpearman"],
+      "timeline": ["timeChart", "seasonalityChart"],
+      "support-heatmap": ["corrHeatmap", "featureCorrChart"],
+      "evidence": ["evidenceChart"],
+      "simulator": ["simGaugeChart", "simChart"]
+    };
+    if (chartIds[sectionId]) {
+      chartIds[sectionId].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          try { Plotly.Plots.resize(el); } catch(e) {}
+        }
+      });
+    }
+  }
+
   function scrollToSection(index) {
     if (index < 0 || index >= sections.length) return;
     isScrolling = true;
@@ -147,8 +171,13 @@ function initNav() {
       history.replaceState(null, null, "#" + sections[index].id);
     }
 
+    // Trigger immediate resize during transition
+    resizeChartsForSection(sections[index].id);
+
     setTimeout(() => {
       isScrolling = false;
+      // Trigger final resize after transition settles
+      resizeChartsForSection(sections[index].id);
     }, scrollCooldown);
   }
 
@@ -162,10 +191,12 @@ function initNav() {
 
   // Wheel listener for scroll hijacking with resistance/damping
   window.addEventListener("wheel", (e) => {
-    // Exempt map zoom, horizontally scrollable nav, dropdown panels, and simulator scrollable controls
+    // Exempt map zoom, horizontally scrollable nav, scrollable quality cards, scrollable zones cards, dropdown panels, and simulator scrollable controls
     if (e.target.closest("#mapCanvas") || 
         e.target.closest("#anchorNav") || 
-        e.target.closest(".t-dropdown") || 
+        e.target.closest(".cards-stack") ||
+        e.target.closest(".zone-metrics-column") ||
+        e.target.closest(".t-dropdown") ||
         e.target.closest(".sim-layout-column--controls")) {
       return; 
     }
@@ -189,6 +220,8 @@ function initNav() {
   window.addEventListener("touchend", (e) => {
     if (e.target.closest("#mapCanvas") || 
         e.target.closest("#anchorNav") || 
+        e.target.closest(".cards-stack") ||
+        e.target.closest(".zone-metrics-column") ||
         e.target.closest(".t-dropdown") || 
         e.target.closest(".sim-layout-column--controls")) {
       return; 
@@ -281,12 +314,12 @@ function renderFindings() {
   const m = data.scenario_models?.THEFT || { r2_train: 0.0886, r2_test: 0.0569 };
   
   const cards = [
-    { title: "Strongest Positive Link (Theft)", desc: `Feature: <strong>${p.feature}</strong><br/>Pearson r: <strong>${p.value.toFixed(3)}</strong> (p=${p.p.toExponential(1)})` },
-    { title: "Strongest Negative Link (Theft)", desc: `Feature: <strong>${n.feature}</strong><br/>Pearson r: <strong>${n.value.toFixed(3)}</strong> (p=${n.p.toExponential(1)})` },
-    { title: "Evidence Strength Tiers", desc: `Robust Associations:<br/>Strong: <strong>${tier.strong ?? 0}</strong> · Moderate: <strong>${tier.moderate ?? 0}</strong>` },
-    { title: "Spatial Variance Test (Theft)", desc: `Kruskal H: <strong>${kw.H.toFixed(2)}</strong><br/>p-value: <strong>${kw.p.toExponential(1)}</strong> (Highly Sig.)` },
-    { title: "Data Scope & Scale", desc: `Images: <strong>150,654</strong><br/>LSOAs: <strong>3,525</strong> (${(data.meta.coverage_ratio * 100).toFixed(1)}% City Coverage)` },
-    { title: "Model Generalization (Theft)", desc: `Holdout R²: <strong>${(m.r2_test * 100).toFixed(2)}%</strong><br/>Train R²: <strong>${(m.r2_train * 100).toFixed(2)}%</strong>` },
+    { title: "Environmental Catalysts", desc: `Built-up density (features like building footprint and fence coverage) exhibits the strongest positive link with theft: <strong>${p.feature}</strong> (r=<strong>${p.value.toFixed(3)}</strong>, p=${p.p.toExponential(1)}). Dense environments create concealment and target-rich hotspots, facilitating spatial opportunities for property crimes.` },
+    { title: "Protective Deterrents", desc: `Visual openness (such as sky visibility and topographic spacing) acts as a citywide crime deterrent: <strong>${n.feature}</strong> (r=<strong>${n.value.toFixed(3)}</strong>, p=${n.p.toExponential(1)}). High sky-view visibility supports Jane Jacobs' "eyes on the street" natural surveillance.` },
+    { title: "Evidence Strength Tiers", desc: `Kruskal-Wallis and regression screenings identified <strong>${tier.strong ?? 0} Strong</strong> and <strong>${tier.moderate ?? 0} Moderate</strong> robust statistical associations between visual street features and crime rates, moving beyond generic citywide averages to reveal zone-specific environmental influences.` },
+    { title: "Spatial Variance H-Test", desc: `Kruskal H-Test confirms crime rates differ significantly across functional zones (H=<strong>${kw.H.toFixed(2)}</strong>, p=<strong>${kw.p.toExponential(1)}</strong>). Zone context shapes opportunity structure: theft concentrates in commercial cores, while vehicle offences peak at transit hubs.` },
+    { title: "Data Scope & Scale", desc: `Extracted 19 visual feature dimensions across <strong>150,654 images</strong> and matched them to <strong>3,525 Greater London LSOAs</strong>, achieving <strong>${(data.meta.coverage_ratio * 100).toFixed(1)}%</strong> of citywide neighborhood coverage, providing a highly representative regional analysis.` },
+    { title: "Model Generalization", desc: `Regression baseline achieves test R² of <strong>${(m.r2_test * 100).toFixed(2)}%</strong> and train R² of <strong>${(m.r2_train * 100).toFixed(2)}%</strong>. Visual features provide modest but statistically robust explanations. Greenery has contrasting roles, facilitating concealment in residential/commercial zones.` },
   ];
   
   findingCards.innerHTML = cards.map((x, i) => `
@@ -307,7 +340,7 @@ function updateCorrelationChart() {
   const zeroLineColor = isLight ? "rgba(0,0,0,0.15)" : "rgba(255,255,255,0.3)";
 
   // Pearson (Linear)
-  const rowsP = data.correlations["pearson"][crime].slice(0, 14);
+  const rowsP = data.correlations["Pearson"][crime].slice(0, 14);
   const xP = rowsP.map((r) => r.value).reverse();
   const yP = rowsP.map((r) => r.feature).reverse();
   const colorsP = xP.map((v) => (v >= 0 ? "rgba(255, 149, 0, 0.85)" : "rgba(52, 199, 89, 0.85)"));
@@ -327,7 +360,7 @@ function updateCorrelationChart() {
   }, plotCfg);
 
   // Spearman (Rank)
-  const rowsS = data.correlations["spearman"][crime].slice(0, 14);
+  const rowsS = data.correlations["Spearman"][crime].slice(0, 14);
   const xS = rowsS.map((r) => r.value).reverse();
   const yS = rowsS.map((r) => r.feature).reverse();
   const colorsS = xS.map((v) => (v >= 0 ? "rgba(255, 149, 0, 0.85)" : "rgba(52, 199, 89, 0.85)"));
@@ -517,7 +550,6 @@ function renderSeasonality() {
     }]
   }, plotCfg);
 }
-
 function renderCorrelationHeatmap() {
   if (!document.getElementById("corrHeatmap")) return;
   const h = data.corr_heatmap;
@@ -537,9 +569,9 @@ function renderCorrelationHeatmap() {
     hovertemplate: "Feature %{y}<br>Crime %{x}<br>r = %{z:.3f}<extra></extra>",
   }], {
     ...getPlotLayout(),
-    xaxis: { ...(getPlotLayout()).xaxis, tickangle: -25, tickfont: { size: 8.5 } },
-    yaxis: { ...(getPlotLayout()).yaxis, tickfont: { size: 8.5 } },
-    margin: { l: 110, r: 20, t: 20, b: 80 }
+    xaxis: { ...(getPlotLayout()).xaxis, tickangle: -25, tickfont: { size: 9.8 } },
+    yaxis: { ...(getPlotLayout()).yaxis, tickfont: { size: 9.8 } },
+    margin: { l: 120, r: 20, t: 20, b: 80 }
   }, plotCfg);
 }
 
@@ -561,12 +593,11 @@ function renderFeatureCorrMatrix() {
     hovertemplate: "%{y} × %{x}<br>Pearson r = %{z:.3f}<extra></extra>",
   }], {
     ...getPlotLayout(),
-    xaxis: { ...(getPlotLayout()).xaxis, tickangle: -30, tickfont: { size: 8.5 } },
-    yaxis: { ...(getPlotLayout()).yaxis, tickfont: { size: 8.5 } },
-    margin: { l: 110, r: 20, t: 20, b: 80 }
+    xaxis: { ...(getPlotLayout()).xaxis, tickangle: -30, tickfont: { size: 9.8 } },
+    yaxis: { ...(getPlotLayout()).yaxis, tickfont: { size: 9.8 } },
+    margin: { l: 120, r: 20, t: 20, b: 80 }
   }, plotCfg);
 }
-
 function renderZones() {
   if (!zoneCards) return;
   zoneCards.innerHTML = data.zone_cards.map((z, idx) => {
@@ -774,27 +805,7 @@ function setupSimulator() {
   ];
   simPresets.innerHTML = presets.map((p) => `<button class="sim-preset-btn" data-preset="${p.key}">${p.label}</button>`).join("");
 
-  // Bind tab switching click event listeners
-  const tabBtns = document.querySelectorAll(".sim-tab-btn");
-  tabBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      tabBtns.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      
-      const tabId = btn.dataset.tab;
-      document.querySelectorAll(".sim-pane").forEach(p => {
-        p.style.display = p.id === tabId ? "flex" : "none";
-      });
-      
-      // Let layout settle then resize Plotly charts
-      setTimeout(() => {
-        if (window.Plotly) {
-          Plotly.Plots.resize("simGaugeChart");
-          Plotly.Plots.resize("simChart");
-        }
-      }, 100);
-    });
-  });
+  // Tabs for simulator visual panes are handled globally by initTabs()
 
   function renderControls(target) {
     const model = models[target];
@@ -1120,9 +1131,8 @@ function initDropdowns() {
       if (d.classList.contains('is-open')) {
         closeDropdown(d);
       } else {
-        closeAllDropdowns(targetId); // Corrected argument pass
+        closeAllDropdowns(targetId);
         d.classList.remove('is-closing');
-        // Force reflow before adding is-open so the transition triggers
         void d.offsetWidth; 
         d.classList.add('is-open');
       }
@@ -1180,6 +1190,7 @@ function initTabs() {
 }
 
 // Boot sequence
+// Boot sequence
 function boot() {
   if (!data) {
     console.error("ANALYSIS_SUMMARY data not loaded.");
@@ -1205,16 +1216,11 @@ function boot() {
     html.dataset.theme = 'dark';
   }
   
-  initNav();
-  renderMeta();
-  renderFindings();
-  renderZones();
-  renderDistribution();
-  renderCorrelationHeatmap();
-  renderSeasonality();
-  renderFeatureCorrMatrix();
-  renderZoneTests();
-  renderQuality();
+  try { initNav(); } catch(e) { console.error("initNav failed:", e); }
+  try { renderMeta(); } catch(e) { console.error("renderMeta failed:", e); }
+  try { renderFindings(); } catch(e) { console.error("renderFindings failed:", e); }
+  try { renderZones(); } catch(e) { console.error("renderZones failed:", e); }
+  try { renderQuality(); } catch(e) { console.error("renderQuality failed:", e); }
 
   fillSelect(crimeSelect, data.crime_options.map((k) => ({ value: k, label: prettyCrime(k) })));
   fillSelect(zoneCrimeSelect, data.crime_options.map((k) => ({ value: k, label: prettyCrime(k) })));
@@ -1229,15 +1235,30 @@ function boot() {
   document.getElementById("timeResolutionToggle")?.addEventListener("change", updateTimeChart);
   document.getElementById("timeYoYToggle")?.addEventListener("change", updateTimeChart);
 
-  updateCorrelationChart();
-  updateTimeChart();
-  updateZoneCrimeChart();
-  updateEvidenceChart();
-  setupSimulator();
-  initMap();
-  initDropdowns();
-  initTabs();
-  initTheme();
+  // Initialize Plotly-dependent views if Plotly is loaded
+  if (window.Plotly) {
+    try { renderDistribution(); } catch(e) { console.error("renderDistribution failed:", e); }
+    try { renderCorrelationHeatmap(); } catch(e) { console.error("renderCorrelationHeatmap failed:", e); }
+    try { renderSeasonality(); } catch(e) { console.error("renderSeasonality failed:", e); }
+    try { renderFeatureCorrMatrix(); } catch(e) { console.error("renderFeatureCorrMatrix failed:", e); }
+    try { renderZoneTests(); } catch(e) { console.error("renderZoneTests failed:", e); }
+
+    try { updateCorrelationChart(); } catch(e) { console.error("updateCorrelationChart failed:", e); }
+    try { updateTimeChart(); } catch(e) { console.error("updateTimeChart failed:", e); }
+    try { updateZoneCrimeChart(); } catch(e) { console.error("updateZoneCrimeChart failed:", e); }
+    try { updateEvidenceChart(); } catch(e) { console.error("updateEvidenceChart failed:", e); }
+    try { setupSimulator(); } catch(e) { console.error("setupSimulator failed:", e); }
+  } else {
+    console.warn("Plotly is not loaded. Charts will not display.");
+    document.querySelectorAll(".plotly-box").forEach(box => {
+      box.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-secondary);font-size:0.9rem;">Plotly library failed to load. Please check your internet connection.</div>`;
+    });
+  }
+
+  try { initMap(); } catch(e) { console.error("initMap failed:", e); }
+  try { initDropdowns(); } catch(e) { console.error("initDropdowns failed:", e); }
+  try { initTabs(); } catch(e) { console.error("initTabs failed:", e); }
+  try { initTheme(); } catch(e) { console.error("initTheme failed:", e); }
 }
 
 // Theme toggle — persists to localStorage, re-renders all Plotly charts
@@ -1247,19 +1268,20 @@ function initTheme() {
   const STORE  = 'sv-crime-theme';
 
   function rerenderAllCharts() {
-    // Re-run all chart render functions so they pick up new getPlotLayout() colors
-    updateCorrelationChart();
-    updateTimeChart();
-    updateZoneCrimeChart();
-    updateEvidenceChart();
-    renderCorrelationHeatmap();
-    renderSeasonality();
-    renderFeatureCorrMatrix();
-    renderZoneTests();
-    // Simulator chart — re-trigger if a target is selected
-    const simTarget = document.getElementById('simTargetSelect');
-    if (simTarget?.value) {
-      simTarget.dispatchEvent(new Event('change'));
+    if (window.Plotly) {
+      try { updateCorrelationChart(); } catch(e) {}
+      try { updateTimeChart(); } catch(e) {}
+      try { updateZoneCrimeChart(); } catch(e) {}
+      try { updateEvidenceChart(); } catch(e) {}
+      try { renderCorrelationHeatmap(); } catch(e) {}
+      try { renderSeasonality(); } catch(e) {}
+      try { renderFeatureCorrMatrix(); } catch(e) {}
+      try { renderZoneTests(); } catch(e) {}
+      
+      const simTarget = document.getElementById('simTargetSelect');
+      if (simTarget?.value) {
+        simTarget.dispatchEvent(new Event('change'));
+      }
     }
 
     // Refresh map layer and styles
@@ -1297,4 +1319,14 @@ function initTheme() {
   }
 }
 
-window.addEventListener('DOMContentLoaded', boot);
+let pollAttempts = 0;
+function pollAndBoot() {
+  const isLoaded = window.ANALYSIS_SUMMARY && window.MAP_PAYLOAD && window.L && window.Plotly;
+  if (isLoaded || pollAttempts > 100) {
+    boot();
+  } else {
+    pollAttempts++;
+    setTimeout(pollAndBoot, 50);
+  }
+}
+window.addEventListener('load', pollAndBoot);
