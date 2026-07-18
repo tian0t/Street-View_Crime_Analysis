@@ -4,7 +4,7 @@
 
 An urban data science project examining how the physical built environment relates to crime, combining computer vision on **150,654** street-view images across Greater London with official crime statistics at the **LSOA (Lower Layer Super Output Area)** level.
 
-**Live Dashboard**: [tian0t.github.io/Street-View_Crime_Analysis/dashboard](https://tian0t.github.io/Street-View_Crime_Analysis/dashboard/)
+**Live Dashboard**: [tian0t.github.io/street-view-crime-analysis/dashboard](https://tian0t.github.io/street-view-crime-analysis/dashboard/)
 
 ---
 
